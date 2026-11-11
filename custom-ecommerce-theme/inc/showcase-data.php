@@ -1,10 +1,9 @@
 <?php
 /**
- * Luxury Curated Showcase Catalog & Card Renderer
+ * Luxury Curated Showcase Catalog, Bag Helpers & Card Renderer
  *
- * Provides rich visual product cards and department categories immediately upon theme activation
- * when a fresh WordPress / WooCommerce store has not yet added products to the database,
- * while seamlessly switching to live WooCommerce database queries once products exist.
+ * Provides rich visual product cards, shopping bag persistence, wishlist rendering,
+ * and department categories immediately upon theme activation.
  *
  * @package Custom_Ecommerce_Theme
  */
@@ -20,44 +19,46 @@ if ( ! function_exists( 'cet_get_showcase_categories' ) ) {
 	 * @return array<int, array<string, mixed>>
 	 */
 	function cet_get_showcase_categories(): array {
-		$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/#signature-products' );
+		$shop_url = function_exists( 'cet_get_store_page_url' )
+			? cet_get_store_page_url( 'shop' )
+			: ( function_exists( 'cet_get_shop_url' ) ? cet_get_shop_url() : home_url( '/#signature-products' ) );
 
 		return array(
 			array(
 				'name'    => __( 'Haute Horology', 'custom-ecommerce-theme' ),
 				'count'   => 18,
 				'initial' => '⌚',
-				'url'     => $shop_url,
+				'url'     => add_query_arg( 'cet_cat', 'haute-horology', $shop_url ),
 			),
 			array(
 				'name'    => __( 'Fine Leather Goods', 'custom-ecommerce-theme' ),
 				'count'   => 24,
 				'initial' => '👜',
-				'url'     => $shop_url,
+				'url'     => add_query_arg( 'cet_cat', 'fine-leather-goods', $shop_url ),
 			),
 			array(
 				'name'    => __( 'Champagne Gold Editions', 'custom-ecommerce-theme' ),
 				'count'   => 12,
 				'initial' => '✦',
-				'url'     => $shop_url,
+				'url'     => add_query_arg( 'cet_cat', 'champagne-gold-editions', $shop_url ),
 			),
 			array(
 				'name'    => __( 'Executive Travel', 'custom-ecommerce-theme' ),
 				'count'   => 15,
 				'initial' => '🧳',
-				'url'     => $shop_url,
+				'url'     => add_query_arg( 'cet_cat', 'executive-travel', $shop_url ),
 			),
 			array(
 				'name'    => __( 'Bespoke Eyewear', 'custom-ecommerce-theme' ),
 				'count'   => 10,
 				'initial' => '🕶',
-				'url'     => $shop_url,
+				'url'     => add_query_arg( 'cet_cat', 'bespoke-eyewear', $shop_url ),
 			),
 			array(
 				'name'    => __( 'Private Fragrances', 'custom-ecommerce-theme' ),
 				'count'   => 9,
 				'initial' => '❖',
-				'url'     => $shop_url,
+				'url'     => add_query_arg( 'cet_cat', 'private-fragrances', $shop_url ),
 			),
 		);
 	}
@@ -65,7 +66,7 @@ if ( ! function_exists( 'cet_get_showcase_categories' ) ) {
 
 if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 	/**
-	 * Return 8 curated luxury showcase products with bespoke SVG artwork.
+	 * Return 8 curated luxury showcase products with numerical prices and bespoke SVG artwork.
 	 *
 	 * @return array<int, array<string, mixed>>
 	 */
@@ -75,6 +76,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9001,
 				'title'         => __( 'Sovereign Chronograph 41mm — Champagne Gold', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Haute Horology', 'custom-ecommerce-theme' ),
+				'price'         => 1190.00,
+				'regular_price' => 1450.00,
 				'price_html'    => '<del>$1,450.00</del> <ins>$1,190.00</ins>',
 				'badge'         => '-18%',
 				'badge_type'    => 'sale',
@@ -90,6 +93,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9002,
 				'title'         => __( 'Madison Quilted Calfskin Weekender Tote', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Fine Leather Goods', 'custom-ecommerce-theme' ),
+				'price'         => 890.00,
+				'regular_price' => 890.00,
 				'price_html'    => '<ins>$890.00</ins>',
 				'badge'         => __( 'Featured', 'custom-ecommerce-theme' ),
 				'badge_type'    => 'featured',
@@ -105,6 +110,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9003,
 				'title'         => __( 'Lumière Titanium Aviator Sunglasses', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Bespoke Eyewear', 'custom-ecommerce-theme' ),
+				'price'         => 430.00,
+				'regular_price' => 520.00,
 				'price_html'    => '<del>$520.00</del> <ins>$430.00</ins>',
 				'badge'         => '-17%',
 				'badge_type'    => 'sale',
@@ -120,6 +127,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9004,
 				'title'         => __( 'Velvet Oud & Ambergris Extrait de Parfum 100ml', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Private Fragrances', 'custom-ecommerce-theme' ),
+				'price'         => 340.00,
+				'regular_price' => 340.00,
 				'price_html'    => '<ins>$340.00</ins>',
 				'badge'         => __( 'Best Seller', 'custom-ecommerce-theme' ),
 				'badge_type'    => 'bestseller',
@@ -135,6 +144,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9005,
 				'title'         => __( 'Aurum Guilloché Cufflinks & Tie Bar Set', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Champagne Gold Editions', 'custom-ecommerce-theme' ),
+				'price'         => 275.00,
+				'regular_price' => 275.00,
 				'price_html'    => '<ins>$275.00</ins>',
 				'badge'         => __( 'New Arrival', 'custom-ecommerce-theme' ),
 				'badge_type'    => 'new',
@@ -150,6 +161,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9006,
 				'title'         => __( 'Geneva Diplomat Hardside Cabin Trolley', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Executive Travel', 'custom-ecommerce-theme' ),
+				'price'         => 960.00,
+				'regular_price' => 1150.00,
 				'price_html'    => '<del>$1,150.00</del> <ins>$960.00</ins>',
 				'badge'         => '-16%',
 				'badge_type'    => 'sale',
@@ -165,6 +178,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9007,
 				'title'         => __( 'Valentin Double-Faced Cashmere Overcoat', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Champagne Gold Editions', 'custom-ecommerce-theme' ),
+				'price'         => 1680.00,
+				'regular_price' => 1680.00,
 				'price_html'    => '<ins>$1,680.00</ins>',
 				'badge'         => __( 'Limited', 'custom-ecommerce-theme' ),
 				'badge_type'    => 'featured',
@@ -180,6 +195,8 @@ if ( ! function_exists( 'cet_get_showcase_products' ) ) {
 				'id'            => 9008,
 				'title'         => __( 'Atelier Sovereign 18k Nib Fountain Pen', 'custom-ecommerce-theme' ),
 				'category'      => __( 'Executive Travel', 'custom-ecommerce-theme' ),
+				'price'         => 495.00,
+				'regular_price' => 495.00,
 				'price_html'    => '<ins>$495.00</ins>',
 				'badge'         => __( 'New Arrival', 'custom-ecommerce-theme' ),
 				'badge_type'    => 'new',
@@ -240,7 +257,7 @@ if ( ! function_exists( 'cet_get_showcase_product_svg' ) ) {
 				<text x="200" y="336" text-anchor="middle" fill="#D6AD65" font-family="Georgia, serif" font-size="11" letter-spacing="3" opacity="0.9">%1$s</text>
 			</svg>',
 			esc_attr( $sku ?: 'ATELIER EDITION' ),
-			esc_attr( sanitize_key( $type . '-' . $sku ) ),
+			esc_attr( sanitize_key( $type . '-' . $sku . '-' . wp_rand( 10, 999 ) ) ),
 			$graphic
 		);
 	}
@@ -288,7 +305,7 @@ if ( ! function_exists( 'cet_render_showcase_product_card' ) ) {
 						class="cet-icon-action-btn cet-wishlist-toggle <?php echo $in_wishlist ? 'is-active' : ''; ?>"
 						data-product-id="<?php echo esc_attr( (string) $product_id ); ?>"
 						aria-label="<?php esc_attr_e( 'Toggle Wishlist', 'custom-ecommerce-theme' ); ?>"
-						title="<?php esc_attr_e( 'Wishlist', 'custom-ecommerce-theme' ); ?>"
+						title="<?php esc_attr_e( 'Add to Wishlist', 'custom-ecommerce-theme' ); ?>"
 					>
 						<?php echo cet_get_svg_icon( 'heart', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</button>
@@ -342,7 +359,7 @@ if ( ! function_exists( 'cet_render_showcase_product_card' ) ) {
 					</div>
 
 					<div class="cet-product-card__cart">
-						<button type="button" class="cet-add-cart-btn cet-quickview-trigger" data-product-id="<?php echo esc_attr( (string) $product_id ); ?>">
+						<button type="button" class="cet-add-cart-btn cet-add-to-bag-btn" data-product-id="<?php echo esc_attr( (string) $product_id ); ?>" data-qty="1">
 							<?php esc_html_e( 'Add to Bag', 'custom-ecommerce-theme' ); ?>
 						</button>
 					</div>
@@ -352,4 +369,3 @@ if ( ! function_exists( 'cet_render_showcase_product_card' ) ) {
 		<?php
 	}
 }
-

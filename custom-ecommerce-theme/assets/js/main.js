@@ -62,6 +62,34 @@
 		document.body.style.overflow = '';
 	};
 
+	/**
+	 * Open Client Account Portal Modal (Sign In, Create Account, or Client Orders).
+	 *
+	 * @param {string} tab Initial tab ('login' or 'register').
+	 */
+	window.CET.openAccountModal = function ( tab = 'login' ) {
+		if ( ! window.cetThemeData ) return;
+		window.CET.openModal( `<p style="text-align:center; padding:2.5rem;">${ window.cetThemeData.i18n.loading }</p>` );
+
+		const formData = new FormData();
+		formData.append( 'action', 'cet_get_account_modal' );
+		formData.append( 'nonce', window.cetThemeData.nonce );
+		formData.append( 'tab', tab );
+
+		fetch( window.cetThemeData.ajaxUrl, {
+			method: 'POST',
+			body: formData,
+			credentials: 'same-origin',
+		} )
+			.then( ( r ) => r.json() )
+			.then( ( res ) => {
+				if ( res.success && res.data?.html ) {
+					window.CET.openModal( res.data.html );
+				}
+			} )
+			.catch( () => {} );
+	};
+
 	document.addEventListener( 'DOMContentLoaded', () => {
 		document.documentElement.classList.add( 'cet-js-loaded' );
 
@@ -175,5 +203,168 @@
 					.catch( () => {} );
 			} );
 		}
+
+		// 5. Client Account Portal Triggers, Tab Switching, Login, Registration & Sign Out.
+		const syncAccountUI = ( data ) => {
+			if ( ! data ) return;
+			const labelEl = document.getElementById( 'cet-account-action-label' );
+			if ( labelEl && data.label ) {
+				labelEl.textContent = data.label;
+			}
+			if ( window.cetThemeData && 'undefined' !== typeof data.isLoggedIn ) {
+				window.cetThemeData.isLoggedIn = Boolean( data.isLoggedIn );
+			}
+			if ( 'undefined' !== typeof data.wishlistCount ) {
+				const wishBadge = document.getElementById( 'cet-wishlist-count' );
+				if ( wishBadge ) wishBadge.textContent = String( data.wishlistCount );
+			}
+			if ( 'undefined' !== typeof data.bagCount ) {
+				document.querySelectorAll( '.cet-cart-count' ).forEach( ( badge ) => {
+					badge.textContent = String( data.bagCount );
+				} );
+			}
+			if ( data.bagDrawerHtml ) {
+				const bagBody = document.querySelector( '#cet-mini-cart-drawer .cet-mini-cart-body' );
+				if ( bagBody ) bagBody.innerHTML = data.bagDrawerHtml;
+			}
+		};
+
+		document.addEventListener( 'click', ( e ) => {
+			// A. Open Account Modal instead of redirecting to wp-login.php.
+			const accTrigger = e.target.closest( '.cet-account-modal-trigger' );
+			if ( accTrigger ) {
+				e.preventDefault();
+				const mobileDrawer = document.getElementById( 'cet-mobile-drawer' );
+				const backdrop = document.getElementById( 'cet-drawer-backdrop' );
+				if ( mobileDrawer ) {
+					mobileDrawer.classList.remove( 'is-open' );
+					mobileDrawer.setAttribute( 'aria-hidden', 'true' );
+				}
+				if ( backdrop ) backdrop.classList.remove( 'is-open' );
+				window.CET.openAccountModal( accTrigger.getAttribute( 'data-account-tab' ) || 'login' );
+				return;
+			}
+
+			// B. Switch Sign In <-> Create Account Tabs.
+			const tabBtn = e.target.closest( '.cet-account-tab-btn' );
+			if ( tabBtn ) {
+				e.preventDefault();
+				const portal = tabBtn.closest( '.cet-account-portal' );
+				if ( ! portal ) return;
+
+				const target = tabBtn.getAttribute( 'data-target' );
+				const loginForm = portal.querySelector( '#cet-account-login-form' );
+				const regForm = portal.querySelector( '#cet-account-register-form' );
+				const feedbackBox = portal.querySelector( '.cet-account-feedback' );
+
+				portal.querySelectorAll( '.cet-account-tab-btn' ).forEach( ( b ) => {
+					const active = b === tabBtn;
+					b.classList.toggle( 'cet-btn--primary', active );
+					b.classList.toggle( 'cet-btn--outline', ! active );
+				} );
+
+				if ( loginForm ) loginForm.style.display = ( 'login' === target ) ? '' : 'none';
+				if ( regForm ) regForm.style.display = ( 'register' === target ) ? '' : 'none';
+				if ( feedbackBox ) feedbackBox.style.display = 'none';
+				return;
+			}
+
+			// C. Sign Out Shopper inside Account Portal.
+			const logoutBtn = e.target.closest( '#cet-account-logout-btn' );
+			if ( logoutBtn && window.cetThemeData ) {
+				e.preventDefault();
+				logoutBtn.disabled = true;
+
+				const formData = new FormData();
+				formData.append( 'action', 'cet_account_logout' );
+				formData.append( 'nonce', window.cetThemeData.nonce );
+
+				fetch( window.cetThemeData.ajaxUrl, {
+					method: 'POST',
+					body: formData,
+					credentials: 'same-origin',
+				} )
+					.then( ( r ) => r.json() )
+					.then( ( res ) => {
+						if ( res.success && res.data ) {
+							syncAccountUI( res.data );
+							const portalWrap = logoutBtn.closest( '.cet-account-portal' );
+							if ( portalWrap && res.data.html ) {
+								portalWrap.outerHTML = res.data.html;
+							} else if ( res.data.html ) {
+								window.CET.openModal( res.data.html );
+							}
+							if ( res.data.message ) {
+								window.CET.showToast( res.data.message );
+							}
+						}
+					} )
+					.catch( () => {
+						logoutBtn.disabled = false;
+					} );
+			}
+		} );
+
+		// Handle Login & Create Account Form Submissions (works in Modal OR [cet_account] Page).
+		document.addEventListener( 'submit', ( e ) => {
+			const form = e.target;
+			if ( ! form || ( form.id !== 'cet-account-login-form' && form.id !== 'cet-account-register-form' ) ) {
+				return;
+			}
+			if ( ! window.cetThemeData ) return;
+			e.preventDefault();
+
+			const portal = form.closest( '.cet-account-portal' );
+			const feedbackBox = portal ? portal.querySelector( '.cet-account-feedback' ) : null;
+			const submitBtn = form.querySelector( 'button[type="submit"]' );
+			const origLabel = submitBtn ? submitBtn.textContent : '';
+			const ajaxAction = ( form.id === 'cet-account-register-form' ) ? 'cet_account_register' : 'cet_account_login';
+
+			if ( feedbackBox ) feedbackBox.style.display = 'none';
+			if ( submitBtn ) {
+				submitBtn.disabled = true;
+				submitBtn.textContent = window.cetThemeData.i18n.loading || 'Please wait...';
+			}
+
+			const formData = new FormData( form );
+			formData.append( 'action', ajaxAction );
+			formData.append( 'nonce', window.cetThemeData.nonce );
+
+			fetch( window.cetThemeData.ajaxUrl, {
+				method: 'POST',
+				body: formData,
+				credentials: 'same-origin',
+			} )
+				.then( ( r ) => r.json() )
+				.then( ( res ) => {
+					if ( res.success && res.data ) {
+						syncAccountUI( res.data );
+						if ( portal && res.data.html ) {
+							portal.outerHTML = res.data.html;
+						}
+						if ( res.data.message ) {
+							window.CET.showToast( res.data.message );
+						}
+					} else {
+						if ( feedbackBox ) {
+							feedbackBox.style.display = 'block';
+							feedbackBox.style.background = '#FEF2F2';
+							feedbackBox.style.color = '#991B1B';
+							feedbackBox.style.border = '1px solid #FECACA';
+							feedbackBox.textContent = res.data?.message || 'Authentication failed. Please check your details.';
+						}
+						if ( submitBtn ) {
+							submitBtn.disabled = false;
+							submitBtn.textContent = origLabel;
+						}
+					}
+				} )
+				.catch( () => {
+					if ( submitBtn ) {
+						submitBtn.disabled = false;
+						submitBtn.textContent = origLabel;
+					}
+				} );
+		} );
 	} );
 } )();

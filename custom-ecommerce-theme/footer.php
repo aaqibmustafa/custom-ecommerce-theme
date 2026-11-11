@@ -17,9 +17,14 @@ $about_text = (string) cet_get_option( 'footer_about_text' );
 $phone      = (string) cet_get_option( 'footer_phone' );
 $email      = (string) cet_get_option( 'footer_email' );
 $address    = (string) cet_get_option( 'footer_address' );
-$shop_url   = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
-$acct_url   = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : home_url( '/my-account/' );
-$cart_url   = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
+$shop_url      = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
+$has_wc_acc    = function_exists( 'cet_has_wc_account_page' ) && cet_has_wc_account_page();
+$acct_url      = function_exists( 'cet_get_account_url' ) ? cet_get_account_url() : '#cet-account-portal';
+$cart_url      = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'cart' ) : '#cet-mini-cart-drawer';
+$checkout_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'checkout' ) : $shop_url;
+$wishlist_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'wishlist' ) : $shop_url;
+$track_url     = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'track-order' ) : $acct_url;
+$acct_page_url = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'my-account' ) : $acct_url;
 ?>
 	<footer id="colophon" class="site-footer cet-footer">
 		<div class="cet-container">
@@ -82,9 +87,9 @@ $cart_url   = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_ur
 							?>
 							<ul class="cet-footer__links">
 								<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'All Luxury Collections', 'custom-ecommerce-theme' ); ?></a></li>
-								<li><a href="<?php echo esc_url( add_query_arg( 'orderby', 'date', $shop_url ) ); ?>"><?php esc_html_e( 'New Season Arrivals', 'custom-ecommerce-theme' ); ?></a></li>
-								<li><a href="<?php echo esc_url( add_query_arg( 'orderby', 'popularity', $shop_url ) ); ?>"><?php esc_html_e( 'Best-Selling Pieces', 'custom-ecommerce-theme' ); ?></a></li>
-								<li><a href="<?php echo esc_url( add_query_arg( 'orderby', 'rating', $shop_url ) ); ?>"><?php esc_html_e( 'Top Rated Curations', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( add_query_arg( array( 'cet_sort' => 'price_asc', 'orderby' => 'date' ), $shop_url ) ); ?>"><?php esc_html_e( 'New Season Arrivals', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( add_query_arg( array( 'cet_sort' => 'rated', 'orderby' => 'popularity' ), $shop_url ) ); ?>"><?php esc_html_e( 'Best-Selling Pieces', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( $wishlist_url ); ?>"><?php esc_html_e( 'Saved Wishlist Page', 'custom-ecommerce-theme' ); ?></a></li>
 							</ul>
 							<?php
 						}
@@ -111,10 +116,10 @@ $cart_url   = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_ur
 						} else {
 							?>
 							<ul class="cet-footer__links">
-								<li><a href="<?php echo esc_url( $acct_url ); ?>"><?php esc_html_e( 'My Account Dashboard', 'custom-ecommerce-theme' ); ?></a></li>
-								<li><a href="<?php echo esc_url( $cart_url ); ?>"><?php esc_html_e( 'View Shopping Bag', 'custom-ecommerce-theme' ); ?></a></li>
-								<li><a href="<?php echo esc_url( $acct_url ); ?>"><?php esc_html_e( 'Order History & Tracking', 'custom-ecommerce-theme' ); ?></a></li>
-								<li><a href="<?php echo esc_url( home_url( '/?s=' ) ); ?>"><?php esc_html_e( 'Catalog Search', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( $acct_page_url ); ?>"><?php esc_html_e( 'My Account Dashboard', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( $cart_url ); ?>"><?php esc_html_e( 'Shopping Bag Page', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( $checkout_url ); ?>"><?php esc_html_e( 'Checkout & Delivery', 'custom-ecommerce-theme' ); ?></a></li>
+								<li><a href="<?php echo esc_url( $track_url ); ?>"><?php esc_html_e( 'Track Your Order', 'custom-ecommerce-theme' ); ?></a></li>
 							</ul>
 							<?php
 						}

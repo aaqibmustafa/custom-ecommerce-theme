@@ -13,7 +13,7 @@ if ( ! cet_get_option( 'home_collections_enable', true ) ) {
 	return;
 }
 
-$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/#signature-products' );
+$shop_url = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
 
 $featured_products = array();
 if ( function_exists( 'wc_get_products' ) ) {
@@ -41,7 +41,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 				<h3><?php esc_html_e( 'Midnight Navy Sovereign Series', 'custom-ecommerce-theme' ); ?></h3>
 				<p style="opacity:0.9;"><?php esc_html_e( 'Architectural silhouettes paired with brushed Champagne Gold hardware.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
-					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--gold cet-btn--sm">
+					<a href="<?php echo esc_url( add_query_arg( 'cet_cat', 'champagne-gold-editions', $shop_url ) ); ?>" class="cet-btn cet-btn--gold cet-btn--sm">
 						<?php esc_html_e( 'Explore Series', 'custom-ecommerce-theme' ); ?>
 					</a>
 				</div>
@@ -52,7 +52,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 				<h3><?php esc_html_e( 'The Executive Travel Capsule', 'custom-ecommerce-theme' ); ?></h3>
 				<p style="color:#5A6578;"><?php esc_html_e( 'Engineered for seamless global transit and uncompromising durability.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
-					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--primary cet-btn--sm">
+					<a href="<?php echo esc_url( add_query_arg( 'cet_cat', 'executive-travel', $shop_url ) ); ?>" class="cet-btn cet-btn--primary cet-btn--sm">
 						<?php esc_html_e( 'Shop Capsule', 'custom-ecommerce-theme' ); ?>
 					</a>
 				</div>
@@ -63,7 +63,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 				<h3><?php esc_html_e( 'Artisanal Gift Editions', 'custom-ecommerce-theme' ); ?></h3>
 				<p style="color:#5A6578;"><?php esc_html_e( 'Presented in bespoke presentation boxes with personalized monogramming.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
-					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--outline cet-btn--sm">
+					<a href="<?php echo esc_url( add_query_arg( 'cet_sort', 'rated', $shop_url ) ); ?>" class="cet-btn cet-btn--outline cet-btn--sm">
 						<?php esc_html_e( 'Browse Gifts', 'custom-ecommerce-theme' ); ?>
 					</a>
 				</div>

@@ -13,10 +13,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $wishlist_count = function_exists( 'cet_get_wishlist_ids' ) ? count( cet_get_wishlist_ids() ) : 0;
-$cart_count     = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
-$account_url    = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : wp_login_url();
-$cart_url       = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
-$shop_url       = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+$wc_cart_count  = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
+$bag_count      = function_exists( 'cet_get_bag_total_count' ) ? cet_get_bag_total_count() : 0;
+$cart_count     = $wc_cart_count > 0 ? $wc_cart_count : $bag_count;
+$has_wc_account = function_exists( 'cet_has_wc_account_page' ) && cet_has_wc_account_page();
+$account_url    = function_exists( 'cet_get_account_url' ) ? cet_get_account_url() : '#cet-account-portal';
+$shop_url       = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
+$cart_url       = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'cart' ) : '#cet-mini-cart-drawer';
+$checkout_url   = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'checkout' ) : $shop_url;
+$wishlist_url   = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'wishlist' ) : $shop_url;
+$track_url      = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'track-order' ) : $shop_url;
+$acct_page_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'my-account' ) : $account_url;
 ?><!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -113,9 +120,14 @@ $shop_url       = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_perma
 
 			<!-- 3. Account, Wishlist & Shopping Bag Actions -->
 			<div class="cet-header__actions">
-				<a href="<?php echo esc_url( $account_url ); ?>" class="cet-header-action" title="<?php esc_attr_e( 'My Account', 'custom-ecommerce-theme' ); ?>">
+				<a
+					href="<?php echo esc_url( $account_url ); ?>"
+					class="cet-header-action <?php echo $has_wc_account ? '' : 'cet-account-modal-trigger'; ?>"
+					id="cet-account-trigger"
+					title="<?php esc_attr_e( 'Client Account & Sign In', 'custom-ecommerce-theme' ); ?>"
+				>
 					<?php echo cet_get_svg_icon( 'user', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					<span class="cet-action-label">
+					<span class="cet-action-label" id="cet-account-action-label">
 						<?php echo is_user_logged_in() ? esc_html__( 'Account', 'custom-ecommerce-theme' ) : esc_html__( 'Sign In', 'custom-ecommerce-theme' ); ?>
 					</span>
 				</a>
@@ -158,16 +170,24 @@ $shop_url       = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_perma
 							<li class="<?php echo is_front_page() ? 'current-menu-item' : ''; ?>">
 								<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'custom-ecommerce-theme' ); ?></a>
 							</li>
-							<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-								<li class="<?php echo ( function_exists( 'is_shop' ) && is_shop() ) ? 'current-menu-item' : ''; ?>">
-									<a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop Collection', 'custom-ecommerce-theme' ); ?></a>
-								</li>
-							<?php endif; ?>
-							<li><a href="<?php echo esc_url( home_url( '/#featured-collections' ) ); ?>"><?php esc_html_e( 'Featured Curations', 'custom-ecommerce-theme' ); ?></a></li>
-							<li><a href="<?php echo esc_url( home_url( '/#special-offers' ) ); ?>"><?php esc_html_e( 'Private Offers', 'custom-ecommerce-theme' ); ?></a></li>
-							<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-								<li><a href="<?php echo esc_url( $account_url ); ?>"><?php esc_html_e( 'Client Portal', 'custom-ecommerce-theme' ); ?></a></li>
-							<?php endif; ?>
+							<li class="<?php echo ( ( function_exists( 'is_shop' ) && is_shop() ) || is_page_template( 'page-templates/template-shop.php' ) ) ? 'current-menu-item' : ''; ?>">
+								<a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop Catalog', 'custom-ecommerce-theme' ); ?></a>
+							</li>
+							<li class="<?php echo is_page_template( 'page-templates/template-cart.php' ) ? 'current-menu-item' : ''; ?>">
+								<a href="<?php echo esc_url( $cart_url ); ?>"><?php esc_html_e( 'Shopping Bag', 'custom-ecommerce-theme' ); ?></a>
+							</li>
+							<li class="<?php echo is_page_template( 'page-templates/template-checkout.php' ) ? 'current-menu-item' : ''; ?>">
+								<a href="<?php echo esc_url( $checkout_url ); ?>"><?php esc_html_e( 'Checkout', 'custom-ecommerce-theme' ); ?></a>
+							</li>
+							<li class="<?php echo is_page_template( 'page-templates/template-wishlist.php' ) ? 'current-menu-item' : ''; ?>">
+								<a href="<?php echo esc_url( $wishlist_url ); ?>"><?php esc_html_e( 'Wishlist', 'custom-ecommerce-theme' ); ?></a>
+							</li>
+							<li class="<?php echo is_page_template( 'page-templates/template-track-order.php' ) ? 'current-menu-item' : ''; ?>">
+								<a href="<?php echo esc_url( $track_url ); ?>"><?php esc_html_e( 'Track Order', 'custom-ecommerce-theme' ); ?></a>
+							</li>
+							<li class="<?php echo is_page_template( 'page-templates/template-account.php' ) ? 'current-menu-item' : ''; ?>">
+								<a href="<?php echo esc_url( $acct_page_url ); ?>"><?php esc_html_e( 'Account', 'custom-ecommerce-theme' ); ?></a>
+							</li>
 						</ul>
 						<?php
 					}

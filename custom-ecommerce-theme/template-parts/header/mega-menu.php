@@ -32,7 +32,7 @@ if ( taxonomy_exists( 'product_cat' ) ) {
 	}
 }
 
-$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/#signature-products' );
+$shop_url = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
 ?>
 <div class="cet-mega-trigger-wrap">
 	<button type="button" class="cet-mega-trigger" aria-expanded="false" aria-controls="cet-mega-menu-panel">

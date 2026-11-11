@@ -76,16 +76,42 @@ function cet_get_reading_time( ?int $post_id = null ): int {
 }
 
 /**
- * Render Wishlist Shortcode `[cet_wishlist]` for dedicated Wishlist pages.
+ * Determine whether WooCommerce has an active, published My Account page.
+ *
+ * Prevents header/nav links from ever falling back to `wp-login.php`.
+ *
+ * @return bool
+ */
+function cet_has_wc_account_page(): bool {
+	if ( ! class_exists( 'WooCommerce' ) || ! function_exists( 'wc_get_page_id' ) ) {
+		return false;
+	}
+
+	$page_id = (int) wc_get_page_id( 'myaccount' );
+	return ( $page_id > 0 && 'publish' === get_post_status( $page_id ) );
+}
+
+/**
+ * Resolve the Customer Account URL (published WooCommerce My Account page, `#cet-account-portal` modal fallback).
+ *
+ * @return string
+ */
+function cet_get_account_url(): string {
+	if ( cet_has_wc_account_page() && function_exists( 'wc_get_page_permalink' ) ) {
+		return (string) wc_get_page_permalink( 'myaccount' );
+	}
+
+	return '#cet-account-portal';
+}
+
+/**
+ * Render Wishlist Shortcode `[cet_wishlist]` for dedicated Wishlist pages (supports WC & Showcase items).
  *
  * @return string
  */
 function cet_wishlist_shortcode(): string {
-	if ( ! function_exists( 'wc_get_product' ) ) {
-		return '<p>' . esc_html__( 'WooCommerce is required to view the wishlist.', 'custom-ecommerce-theme' ) . '</p>';
-	}
-
-	$ids = function_exists( 'cet_get_wishlist_ids' ) ? cet_get_wishlist_ids() : array();
+	$ids            = function_exists( 'cet_get_wishlist_ids' ) ? cet_get_wishlist_ids() : array();
+	$showcase_items = function_exists( 'cet_get_showcase_products' ) ? cet_get_showcase_products() : array();
 
 	ob_start();
 	if ( empty( $ids ) ) {
@@ -93,7 +119,7 @@ function cet_wishlist_shortcode(): string {
 		<div class="cet-empty-state">
 			<h3><?php esc_html_e( 'Your Wishlist is Currently Empty', 'custom-ecommerce-theme' ); ?></h3>
 			<p><?php esc_html_e( 'Save your favorite pieces by clicking the heart icon on any product card.', 'custom-ecommerce-theme' ); ?></p>
-			<a href="<?php echo esc_url( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ) ); ?>" class="cet-btn cet-btn--gold">
+			<a href="<?php echo esc_url( function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' ) ); ?>" class="cet-btn cet-btn--gold">
 				<?php esc_html_e( 'Explore the Shop', 'custom-ecommerce-theme' ); ?>
 			</a>
 		</div>
@@ -101,10 +127,17 @@ function cet_wishlist_shortcode(): string {
 	} else {
 		echo '<div class="cet-products-grid cet-grid-cols-4">';
 		foreach ( $ids as $product_id ) {
-			$product_obj = wc_get_product( $product_id );
-			if ( $product_obj && $product_obj->is_visible() ) {
-				set_query_var( 'cet_card_product', $product_obj );
-				get_template_part( 'template-parts/product/product-card' );
+			if ( function_exists( 'wc_get_product' ) ) {
+				$product_obj = wc_get_product( $product_id );
+				if ( $product_obj && $product_obj->is_visible() ) {
+					set_query_var( 'cet_card_product', $product_obj );
+					get_template_part( 'template-parts/product/product-card' );
+					continue;
+				}
+			}
+
+			if ( isset( $showcase_items[ $product_id ] ) && function_exists( 'cet_render_showcase_product_card' ) ) {
+				cet_render_showcase_product_card( $showcase_items[ $product_id ] );
 			}
 		}
 		echo '</div>';
@@ -112,3 +145,16 @@ function cet_wishlist_shortcode(): string {
 	return (string) ob_get_clean();
 }
 add_shortcode( 'cet_wishlist', 'cet_wishlist_shortcode' );
+
+/**
+ * Render Client Account Portal Shortcode `[cet_account]` for dedicated Account pages.
+ *
+ * @return string
+ */
+function cet_account_shortcode(): string {
+	if ( function_exists( 'cet_render_account_portal_html' ) ) {
+		return cet_render_account_portal_html();
+	}
+	return '';
+}
+add_shortcode( 'cet_account', 'cet_account_shortcode' );

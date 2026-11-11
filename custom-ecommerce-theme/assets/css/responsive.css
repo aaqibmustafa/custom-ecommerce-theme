@@ -13,7 +13,7 @@
 
 html,
 body {
-	overflow-x: hidden;
+	overflow-x: clip;
 	max-width: 100%;
 }
 
@@ -72,6 +72,16 @@ body {
 		grid-template-columns: 1fr;
 	}
 
+	.cet-hero__side-stack {
+		grid-template-rows: auto;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.cet-product-card__quick-actions {
+		opacity: 1;
+		transform: none;
+	}
+
 	.cet-countdown-timer {
 		justify-content: flex-start;
 	}
@@ -88,11 +98,23 @@ body {
 	}
 }
 
+/* 3b. WordPress Admin Bar Height Adjustments */
+@media (max-width: 782px) {
+	.admin-bar .cet-header.is-sticky {
+		top: 46px;
+	}
+}
+
 /* 4. Tablet Portrait (<= 768px) */
 @media (max-width: 768px) {
 	.cet-section {
-		padding-top: 3rem;
-		padding-bottom: 3rem;
+		padding-top: 2.75rem;
+		padding-bottom: 2.75rem;
+	}
+
+	.cet-announcement-bar {
+		font-size: 0.76rem;
+		padding: 0.5rem 0;
 	}
 
 	.cet-announcement-bar__utils {
@@ -105,7 +127,36 @@ body {
 	}
 
 	.cet-header__main {
-		grid-template-columns: 1fr auto;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.75rem;
+		padding-top: 0.85rem;
+		padding-bottom: 0.85rem;
+	}
+
+	.cet-header__branding {
+		gap: 0.6rem;
+	}
+
+	.cet-header .cet-brand-link,
+	.cet-header .site-branding a {
+		font-size: 1.24rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.cet-brand-tagline {
+		display: none;
+	}
+
+	.cet-header__actions {
+		gap: 0.45rem;
+		flex-shrink: 0;
+	}
+
+	.cet-header .cet-header-action {
+		padding: 0.46rem 0.65rem;
+		min-height: 40px;
 	}
 
 	.cet-header-search {
@@ -124,12 +175,31 @@ body {
 	.woocommerce ul.products.columns-3,
 	.woocommerce ul.products.columns-4 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.15rem;
+		gap: 1rem;
 	}
 
 	.cet-grid-cols-2,
 	.cet-quickview-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.cet-product-card__body {
+		padding: 1rem;
+	}
+
+	.cet-product-card__footer {
+		flex-wrap: wrap;
+		gap: 0.65rem;
+	}
+
+	.cet-product-card__cart {
+		width: 100%;
+	}
+
+	.cet-product-card__cart .button,
+	.cet-product-card__cart .cet-add-cart-btn {
+		width: 100%;
+		justify-content: center;
 	}
 
 	.cet-products-view-list .cet-product-card {
@@ -140,23 +210,170 @@ body {
 		width: 100%;
 	}
 
-	.cet-product-card__quick-actions {
-		opacity: 1;
-		transform: none;
+	.cet-compare-bar__inner {
+		flex-direction: column;
+		align-items: stretch;
+		text-align: center;
+		gap: 0.65rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.admin-bar .cet-header.is-sticky {
+		top: 0;
+	}
+}
+
+/* 4b. Large Mobile & Phablet (<= 640px) */
+@media (max-width: 640px) {
+	.cet-section {
+		padding-top: 2.35rem;
+		padding-bottom: 2.35rem;
+	}
+
+	.cet-section-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.85rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.cet-hero__side-stack,
+	.cet-form-row-2,
+	.cet-wishlist-grid,
+	.cet-account-summary-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.cet-store-pages-bar {
+		padding: 0.85rem 0.95rem;
+	}
+
+	.cet-store-pages-bar__inner {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		padding-bottom: 0.25rem;
+	}
+
+	.cet-store-page-pill {
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.cet-tabs-nav {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.35rem;
+	}
+
+	.cet-tab-btn {
+		padding: 0.55rem 0.45rem;
+		font-size: 0.78rem;
+		text-align: center;
+	}
+
+	.cet-countdown-banner {
+		padding: 1.6rem 1.2rem;
+		gap: 1.5rem;
+	}
+
+	.cet-countdown-timer {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0.5rem;
+		width: 100%;
+	}
+
+	.cet-countdown-unit {
+		min-width: 0;
+		padding: 0.7rem 0.35rem;
+	}
+
+	.cet-countdown-unit__num {
+		font-size: 1.35rem;
+	}
+
+	.cet-countdown-unit__label {
+		font-size: 0.62rem;
+	}
+
+	.cet-cart-page-item {
+		grid-template-columns: 72px minmax(0, 1fr);
+		gap: 0.85rem;
+	}
+
+	.cet-cart-page-item__thumb {
+		width: 72px;
+		height: 72px;
+	}
+
+	.cet-cart-page-item__controls {
+		grid-column: 1 / -1;
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	.cet-cart-main-panel,
+	.cet-cart-summary-panel,
+	.cet-checkout-main-panel,
+	.cet-checkout-summary-panel,
+	.woocommerce-MyAccount-content {
+		padding: 1.25rem;
+	}
+
+	.cet-shop-header {
+		padding: 1.5rem 1.25rem;
+	}
+
+	.cet-shop-toolbar {
+		padding: 0.85rem;
+	}
+
+	.cet-shop-toolbar__right {
+		width: 100%;
+		justify-content: flex-start !important;
+	}
+
+	.cet-shop-toolbar__right input[type="search"],
+	.cet-shop-toolbar__right select {
+		max-width: 100% !important;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.cet-modal-backdrop {
+		padding: 0.65rem;
+	}
+
+	.cet-modal {
+		padding: 1.35rem 1rem;
+		max-height: 92vh;
+	}
+
+	.cet-footer {
+		padding-top: 3rem;
+	}
+
+	.cet-footer__bottom {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.75rem;
 	}
 }
 
 /* 5. Mobile Viewports (430px, 390px, 375px and below) */
 @media (max-width: 480px) {
 	.cet-container {
-		padding-left: 1rem;
-		padding-right: 1rem;
+		padding-left: 0.9rem;
+		padding-right: 0.9rem;
 	}
 
 	.cet-grid-cols-6,
 	.cet-brands-strip {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.85rem;
+		gap: 0.75rem;
 	}
 
 	.cet-grid-cols-3,
@@ -168,13 +385,31 @@ body {
 		grid-template-columns: 1fr;
 	}
 
+	.cet-header .cet-brand-link,
+	.cet-header .site-branding a {
+		font-size: 1.08rem;
+	}
+
+	.cet-mobile-toggle {
+		width: 38px;
+		height: 38px;
+	}
+
 	.cet-search-form__cat {
 		display: none;
 	}
 
+	.cet-hero {
+		padding: 1.35rem 0 2.25rem;
+	}
+
 	.cet-hero__main-card {
-		padding: 1.75rem 1.35rem;
+		padding: 1.5rem 1.15rem;
 		min-height: auto;
+	}
+
+	.cet-hero__title {
+		font-size: 1.72rem;
 	}
 
 	.cet-hero__actions,
@@ -188,19 +423,41 @@ body {
 		width: 100%;
 	}
 
-	.cet-countdown-unit {
-		min-width: 68px;
-		padding: 0.75rem 0.5rem;
-	}
-
-	.cet-countdown-unit__num {
-		font-size: 1.4rem;
+	.cet-promo-card,
+	.cet-newsletter-box {
+		padding: 1.35rem;
 	}
 
 	.cet-sticky-product-bar__inner {
 		flex-direction: column;
 		align-items: stretch;
 		text-align: center;
+	}
+
+	.cet-toast-container {
+		left: 0.75rem;
+		right: 0.75rem;
+		bottom: 0.75rem;
+	}
+}
+
+/* 6. Narrow Phone Safety (<= 390px) */
+@media (max-width: 390px) {
+	.cet-header .cet-header-action {
+		padding: 0.42rem 0.5rem;
+		gap: 0.25rem;
+		min-height: 36px;
+	}
+
+	.cet-action-badge {
+		min-width: 17px;
+		height: 17px;
+		font-size: 0.66rem;
+		padding: 0 4px;
+	}
+
+	.cet-countdown-timer {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 

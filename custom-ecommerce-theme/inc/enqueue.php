@@ -98,20 +98,24 @@ function cet_enqueue_assets(): void {
 		}
 	}
 
-	// Localize theme data for AJAX search, quick view, wishlist, compare, and cart.
+	// Localize theme data for AJAX search, quick view, wishlist, compare, bag, checkout, and account portal.
 	wp_localize_script(
 		'cet-main',
 		'cetThemeData',
 		array(
-			'ajaxUrl'      => esc_url( admin_url( 'admin-ajax.php' ) ),
-			'nonce'        => wp_create_nonce( 'cet_public_nonce' ),
-			'siteUrl'      => esc_url( home_url( '/' ) ),
-			'isWcActive'   => class_exists( 'WooCommerce' ),
-			'wishlistIds'  => function_exists( 'cet_get_wishlist_ids' ) ? cet_get_wishlist_ids() : array(),
-			'compareIds'   => function_exists( 'cet_get_compare_ids' ) ? cet_get_compare_ids() : array(),
-			'i18n'         => array(
+			'ajaxUrl'              => esc_url( admin_url( 'admin-ajax.php' ) ),
+			'nonce'                => wp_create_nonce( 'cet_public_nonce' ),
+			'siteUrl'              => esc_url( home_url( '/' ) ),
+			'isWcActive'           => class_exists( 'WooCommerce' ),
+			'useThemeAccountModal' => ! ( function_exists( 'cet_has_wc_account_page' ) && cet_has_wc_account_page() ),
+			'isLoggedIn'           => is_user_logged_in(),
+			'wishlistIds'          => function_exists( 'cet_get_wishlist_ids' ) ? cet_get_wishlist_ids() : array(),
+			'compareIds'           => function_exists( 'cet_get_compare_ids' ) ? cet_get_compare_ids() : array(),
+			'bagCount'             => function_exists( 'cet_get_bag_total_count' ) ? cet_get_bag_total_count() : 0,
+			'i18n'                 => array(
 				'addedWishlist'   => esc_html__( 'Added to Wishlist', 'custom-ecommerce-theme' ),
 				'removedWishlist' => esc_html__( 'Removed from Wishlist', 'custom-ecommerce-theme' ),
+				'addedBag'        => esc_html__( 'Added to Shopping Bag', 'custom-ecommerce-theme' ),
 				'loading'         => esc_html__( 'Loading...', 'custom-ecommerce-theme' ),
 				'noResults'       => esc_html__( 'No matching products found.', 'custom-ecommerce-theme' ),
 			),
