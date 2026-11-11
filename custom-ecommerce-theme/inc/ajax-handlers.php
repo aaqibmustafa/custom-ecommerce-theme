@@ -2,6 +2,8 @@
 /**
  * Secure AJAX Handlers for Live Search, Quick View, Wishlist, Product Comparison & Newsletter
  *
+ * Supports both live WooCommerce database products and built-in Showcase products (`9001`–`9008`).
+ *
  * @package Custom_Ecommerce_Theme
  */
 
@@ -176,10 +178,27 @@ function cet_ajax_live_search(): void {
 		wp_reset_postdata();
 	}
 
+	// Also match showcase products when no database products matched.
+	if ( empty( $results ) && function_exists( 'cet_get_showcase_products' ) ) {
+		foreach ( cet_get_showcase_products() as $s_prod ) {
+			if ( false !== stripos( $s_prod['title'], $search_term ) || false !== stripos( $s_prod['category'], $search_term ) || false !== stripos( $s_prod['sku'], $search_term ) ) {
+				$results[] = array(
+					'id'         => $s_prod['id'],
+					'title'      => $s_prod['title'],
+					'url'        => esc_url( home_url( '/#signature-products' ) ),
+					'price_html' => wp_kses_post( $s_prod['price_html'] ),
+					'sku'        => $s_prod['sku'],
+					'image'      => '',
+					'in_stock'   => true,
+				);
+			}
+		}
+	}
+
 	wp_send_json_success(
 		array(
 			'results'  => $results,
-			'view_all' => esc_url( add_query_arg( array( 's' => $search_term, 'post_type' => $post_type ), home_url( '/' ) ) ),
+			'view_all' => esc_url( add_query_arg( array( 's' => $search_term ), home_url( '/' ) ) ),
 		)
 	);
 }
@@ -187,20 +206,61 @@ add_action( 'wp_ajax_cet_live_search', 'cet_ajax_live_search' );
 add_action( 'wp_ajax_nopriv_cet_live_search', 'cet_ajax_live_search' );
 
 /**
- * AJAX Handler: Product Quick View Modal Content.
+ * AJAX Handler: Product Quick View Modal Content (Supports both WC_Product and Showcase items).
  *
  * @return void
  */
 function cet_ajax_quick_view(): void {
 	check_ajax_referer( 'cet_public_nonce', 'nonce' );
 
-	if ( ! function_exists( 'wc_get_product' ) ) {
-		wp_send_json_error( array( 'message' => esc_html__( 'WooCommerce is not active.', 'custom-ecommerce-theme' ) ) );
+	$product_id    = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
+	$showcase_list = function_exists( 'cet_get_showcase_products' ) ? cet_get_showcase_products() : array();
+
+	// 1. Check if this is one of the built-in Showcase products (9001–9008).
+	if ( isset( $showcase_list[ $product_id ] ) ) {
+		$s_item = $showcase_list[ $product_id ];
+		ob_start();
+		?>
+		<div class="cet-quickview-grid">
+			<div class="cet-quickview__media" style="border-radius:var(--radius-md); overflow:hidden;">
+				<?php echo cet_get_showcase_product_svg( (string) $s_item['svg_type'], (string) $s_item['sku'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</div>
+			<div class="cet-quickview__details">
+				<span class="cet-eyebrow"><?php echo esc_html( (string) $s_item['category'] ); ?></span>
+				<h2 class="cet-quickview__title" style="margin-bottom:0.5rem;"><?php echo esc_html( (string) $s_item['title'] ); ?></h2>
+				<div class="cet-quickview__meta" style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1rem; font-size:0.85rem;">
+					<span class="cet-stars">★★★★★</span>
+					<span><?php esc_html_e( 'SKU:', 'custom-ecommerce-theme' ); ?> <strong><?php echo esc_html( (string) $s_item['sku'] ); ?></strong></span>
+					<span class="cet-badge cet-badge--instock"><?php esc_html_e( 'In Stock', 'custom-ecommerce-theme' ); ?></span>
+				</div>
+				<div class="cet-product-card__price" style="font-size:1.5rem; margin-bottom:1rem;">
+					<?php echo wp_kses_post( (string) $s_item['price_html'] ); ?>
+				</div>
+				<p style="color:#5A6578; margin-bottom:1.5rem;">
+					<?php echo esc_html( (string) $s_item['description'] ); ?>
+				</p>
+				<div style="display:flex; flex-wrap:wrap; gap:0.85rem; align-items:center;">
+					<div class="cet-qty-stepper">
+						<button type="button" class="cet-qty-btn cet-qty-minus">-</button>
+						<input type="number" class="qty" value="1" min="1" max="10">
+						<button type="button" class="cet-qty-btn cet-qty-plus">+</button>
+					</div>
+					<button type="button" class="cet-btn cet-btn--gold" onclick="window.CET.showToast('Added to your shopping bag preview!'); window.CET.closeModal();">
+						<?php esc_html_e( 'Add to Shopping Bag', 'custom-ecommerce-theme' ); ?>
+					</button>
+				</div>
+			</div>
+		</div>
+		<?php
+		wp_send_json_success( array( 'html' => (string) ob_get_clean() ) );
 	}
 
-	$product_id = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
-	$product    = wc_get_product( $product_id );
+	// 2. Standard WooCommerce Product Lookup.
+	if ( ! function_exists( 'wc_get_product' ) ) {
+		wp_send_json_error( array( 'message' => esc_html__( 'Product not found.', 'custom-ecommerce-theme' ) ) );
+	}
 
+	$product = wc_get_product( $product_id );
 	if ( ! $product || ! $product->is_visible() ) {
 		wp_send_json_error( array( 'message' => esc_html__( 'Product not found.', 'custom-ecommerce-theme' ) ) );
 	}
@@ -328,12 +388,9 @@ add_action( 'wp_ajax_nopriv_cet_toggle_wishlist', 'cet_ajax_toggle_wishlist' );
 function cet_ajax_compare_products(): void {
 	check_ajax_referer( 'cet_public_nonce', 'nonce' );
 
-	if ( ! function_exists( 'wc_get_product' ) ) {
-		wp_send_json_error( array( 'message' => esc_html__( 'WooCommerce is required for product comparison.', 'custom-ecommerce-theme' ) ) );
-	}
-
-	$raw_ids = isset( $_POST['product_ids'] ) ? sanitize_text_field( wp_unslash( $_POST['product_ids'] ) ) : '';
-	$ids     = array_slice( array_filter( array_map( 'absint', explode( ',', $raw_ids ) ) ), 0, 4 );
+	$raw_ids       = isset( $_POST['product_ids'] ) ? sanitize_text_field( wp_unslash( $_POST['product_ids'] ) ) : '';
+	$ids           = array_slice( array_filter( array_map( 'absint', explode( ',', $raw_ids ) ) ), 0, 4 );
+	$showcase_list = function_exists( 'cet_get_showcase_products' ) ? cet_get_showcase_products() : array();
 
 	if ( empty( $ids ) ) {
 		wp_send_json_success(
@@ -343,30 +400,41 @@ function cet_ajax_compare_products(): void {
 		);
 	}
 
-	$products = array();
+	$rows = array();
 	foreach ( $ids as $id ) {
-		$prod = wc_get_product( $id );
-		if ( $prod && $prod->is_visible() ) {
-			$products[] = $prod;
+		if ( isset( $showcase_list[ $id ] ) ) {
+			$s = $showcase_list[ $id ];
+			$rows[] = array(
+				'id'         => $id,
+				'title'      => $s['title'],
+				'price_html' => $s['price_html'],
+				'sku'        => $s['sku'],
+				'summary'    => $s['description'],
+			);
+		} elseif ( function_exists( 'wc_get_product' ) ) {
+			$prod = wc_get_product( $id );
+			if ( $prod && $prod->is_visible() ) {
+				$rows[] = array(
+					'id'         => $id,
+					'title'      => $prod->get_name(),
+					'price_html' => $prod->get_price_html(),
+					'sku'        => $prod->get_sku() ?: '—',
+					'summary'    => wp_trim_words( $prod->get_short_description() ?: $prod->get_description(), 20 ),
+				);
+			}
 		}
 	}
 
 	ob_start();
 	?>
 	<div class="cet-compare-table-wrap">
-		<table class="cet-compare-table">
+		<table class="cet-compare-table shop_table">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Product', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
+					<?php foreach ( $rows as $r ) : ?>
 						<td>
-							<div class="cet-compare-prod-header">
-								<button type="button" class="cet-compare-remove-btn" data-product-id="<?php echo esc_attr( (string) $prod->get_id() ); ?>" aria-label="<?php esc_attr_e( 'Remove from comparison', 'custom-ecommerce-theme' ); ?>">&times;</button>
-								<a href="<?php echo esc_url( $prod->get_permalink() ); ?>">
-									<?php echo wp_kses_post( $prod->get_image( 'woocommerce_thumbnail' ) ); ?>
-									<h4><?php echo esc_html( $prod->get_name() ); ?></h4>
-								</a>
-							</div>
+							<strong><?php echo esc_html( (string) $r['title'] ); ?></strong>
 						</td>
 					<?php endforeach; ?>
 				</tr>
@@ -374,52 +442,20 @@ function cet_ajax_compare_products(): void {
 			<tbody>
 				<tr>
 					<th><?php esc_html_e( 'Price', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
-						<td class="cet-compare-price"><?php echo wp_kses_post( $prod->get_price_html() ); ?></td>
-					<?php endforeach; ?>
-				</tr>
-				<tr>
-					<th><?php esc_html_e( 'Rating', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
-						<td>
-							<?php
-							echo $prod->get_rating_count() > 0
-								? wp_kses_post( wc_get_rating_html( $prod->get_average_rating() ) )
-								: esc_html__( 'No ratings yet', 'custom-ecommerce-theme' );
-							?>
-						</td>
-					<?php endforeach; ?>
-				</tr>
-				<tr>
-					<th><?php esc_html_e( 'Availability', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
-						<td>
-							<span class="cet-badge <?php echo $prod->is_in_stock() ? 'cet-badge--instock' : 'cet-badge--outofstock'; ?>">
-								<?php echo $prod->is_in_stock() ? esc_html__( 'In Stock', 'custom-ecommerce-theme' ) : esc_html__( 'Out of Stock', 'custom-ecommerce-theme' ); ?>
-							</span>
-						</td>
+					<?php foreach ( $rows as $r ) : ?>
+						<td class="cet-compare-price"><?php echo wp_kses_post( (string) $r['price_html'] ); ?></td>
 					<?php endforeach; ?>
 				</tr>
 				<tr>
 					<th><?php esc_html_e( 'SKU', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
-						<td><?php echo esc_html( $prod->get_sku() ?: '—' ); ?></td>
+					<?php foreach ( $rows as $r ) : ?>
+						<td><?php echo esc_html( (string) $r['sku'] ); ?></td>
 					<?php endforeach; ?>
 				</tr>
 				<tr>
 					<th><?php esc_html_e( 'Summary', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
-						<td><?php echo wp_kses_post( wp_trim_words( $prod->get_short_description() ?: $prod->get_description(), 20 ) ); ?></td>
-					<?php endforeach; ?>
-				</tr>
-				<tr>
-					<th><?php esc_html_e( 'Action', 'custom-ecommerce-theme' ); ?></th>
-					<?php foreach ( $products as $prod ) : ?>
-						<td>
-							<a href="<?php echo esc_url( $prod->add_to_cart_url() ); ?>" class="cet-btn cet-btn--gold cet-btn--sm">
-								<?php echo esc_html( $prod->add_to_cart_text() ); ?>
-							</a>
-						</td>
+					<?php foreach ( $rows as $r ) : ?>
+						<td><?php echo wp_kses_post( (string) $r['summary'] ); ?></td>
 					<?php endforeach; ?>
 				</tr>
 			</tbody>
@@ -468,4 +504,3 @@ function cet_ajax_newsletter_subscribe(): void {
 }
 add_action( 'wp_ajax_cet_newsletter_subscribe', 'cet_ajax_newsletter_subscribe' );
 add_action( 'wp_ajax_nopriv_cet_newsletter_subscribe', 'cet_ajax_newsletter_subscribe' );
-

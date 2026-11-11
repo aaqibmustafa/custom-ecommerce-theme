@@ -2,6 +2,9 @@
 /**
  * Enqueue scripts and styles
  *
+ * Properly loads Parent Theme style.css even when a Child Theme is active,
+ * ensuring all `:root` design tokens and CSS modules load in the exact cascade order.
+ *
  * @package Custom_Ecommerce_Theme
  */
 
@@ -25,10 +28,10 @@ function cet_enqueue_assets(): void {
 
 	$style_ver = file_exists( CET_DIR . 'style.css' ) ? (string) filemtime( CET_DIR . 'style.css' ) : CET_VERSION;
 
-	// 1. Core Theme Stylesheet (style.css).
+	// 1. Always load the Parent Theme root style.css (`CET_URI . 'style.css'`) so `:root` variables exist even when Child Theme is active.
 	wp_enqueue_style(
 		'cet-style',
-		get_stylesheet_uri(),
+		CET_URI . 'style.css',
 		array(),
 		$style_ver
 	);

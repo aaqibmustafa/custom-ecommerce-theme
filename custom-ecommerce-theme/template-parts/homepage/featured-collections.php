@@ -13,7 +13,7 @@ if ( ! cet_get_option( 'home_collections_enable', true ) ) {
 	return;
 }
 
-$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/#signature-products' );
 
 $featured_products = array();
 if ( function_exists( 'wc_get_products' ) ) {
@@ -39,7 +39,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div class="cet-promo-card cet-promo-card--dark">
 				<span class="cet-eyebrow"><?php esc_html_e( 'Collection 01', 'custom-ecommerce-theme' ); ?></span>
 				<h3><?php esc_html_e( 'Midnight Navy Sovereign Series', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="opacity:0.85;"><?php esc_html_e( 'Architectural silhouettes paired with brushed Champagne Gold hardware.', 'custom-ecommerce-theme' ); ?></p>
+				<p style="opacity:0.9;"><?php esc_html_e( 'Architectural silhouettes paired with brushed Champagne Gold hardware.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
 					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--gold cet-btn--sm">
 						<?php esc_html_e( 'Explore Series', 'custom-ecommerce-theme' ); ?>
@@ -50,7 +50,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div class="cet-promo-card">
 				<span class="cet-eyebrow"><?php esc_html_e( 'Collection 02', 'custom-ecommerce-theme' ); ?></span>
 				<h3><?php esc_html_e( 'The Executive Travel Capsule', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="color:var(--color-text-muted);"><?php esc_html_e( 'Engineered for seamless global transit and uncompromising durability.', 'custom-ecommerce-theme' ); ?></p>
+				<p style="color:#5A6578;"><?php esc_html_e( 'Engineered for seamless global transit and uncompromising durability.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
 					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--primary cet-btn--sm">
 						<?php esc_html_e( 'Shop Capsule', 'custom-ecommerce-theme' ); ?>
@@ -61,7 +61,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div class="cet-promo-card">
 				<span class="cet-eyebrow"><?php esc_html_e( 'Collection 03', 'custom-ecommerce-theme' ); ?></span>
 				<h3><?php esc_html_e( 'Artisanal Gift Editions', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="color:var(--color-text-muted);"><?php esc_html_e( 'Presented in bespoke presentation boxes with personalized monogramming.', 'custom-ecommerce-theme' ); ?></p>
+				<p style="color:#5A6578;"><?php esc_html_e( 'Presented in bespoke presentation boxes with personalized monogramming.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
 					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--outline cet-btn--sm">
 						<?php esc_html_e( 'Browse Gifts', 'custom-ecommerce-theme' ); ?>
@@ -70,16 +70,22 @@ if ( function_exists( 'wc_get_products' ) ) {
 			</div>
 		</div>
 
-		<?php if ( ! empty( $featured_products ) ) : ?>
-			<div class="cet-products-grid">
+		<div class="cet-products-grid">
+			<?php if ( ! empty( $featured_products ) ) : ?>
 				<?php
 				foreach ( $featured_products as $f_prod ) {
 					set_query_var( 'cet_card_product', $f_prod );
 					get_template_part( 'template-parts/product/product-card' );
 				}
 				?>
-			</div>
-		<?php endif; ?>
+			<?php elseif ( function_exists( 'cet_get_showcase_products' ) ) : ?>
+				<?php
+				$showcase_featured = array_slice( cet_get_showcase_products(), 0, 4 );
+				foreach ( $showcase_featured as $sf_item ) {
+					cet_render_showcase_product_card( $sf_item );
+				}
+				?>
+			<?php endif; ?>
+		</div>
 	</div>
 </section>
-

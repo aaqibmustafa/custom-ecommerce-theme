@@ -21,7 +21,7 @@ define( 'CET_INC_DIR', CET_DIR . 'inc/' );
 define( 'CET_ASSETS_URI', CET_URI . 'assets/' );
 
 /**
- * Load modular theme setup, Customizer, widgets, performance, AJAX, and helper files.
+ * Load modular theme setup, Customizer, widgets, performance, showcase data, AJAX, and helper files.
  */
 $cet_core_includes = array(
 	'inc/theme-setup.php',
@@ -29,6 +29,7 @@ $cet_core_includes = array(
 	'inc/widgets.php',
 	'inc/breadcrumbs.php',
 	'inc/performance.php',
+	'inc/showcase-data.php',
 	'inc/template-functions.php',
 	'inc/ajax-handlers.php',
 	'inc/enqueue.php',

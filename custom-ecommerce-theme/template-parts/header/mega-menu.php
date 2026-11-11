@@ -3,7 +3,7 @@
  * Department Mega Menu Panel Template Part
  *
  * Dynamically queries WooCommerce product categories (`product_cat`) when available,
- * or falls back to curated store departments.
+ * or displays the 6 curated luxury departments when the catalog is newly installed.
  *
  * @package Custom_Ecommerce_Theme
  */
@@ -24,6 +24,7 @@ if ( taxonomy_exists( 'product_cat' ) ) {
 			'hide_empty' => false,
 			'parent'     => 0,
 			'number'     => 6,
+			'exclude'    => array( (int) get_option( 'default_product_cat', 0 ) ),
 		)
 	);
 	if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
@@ -31,7 +32,7 @@ if ( taxonomy_exists( 'product_cat' ) ) {
 	}
 }
 
-$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/#signature-products' );
 ?>
 <div class="cet-mega-trigger-wrap">
 	<button type="button" class="cet-mega-trigger" aria-expanded="false" aria-controls="cet-mega-menu-panel">
@@ -62,13 +63,23 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 							</div>
 						</a>
 					<?php endforeach; ?>
-				<?php else : ?>
-					<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-mega-cat-item">
-						<div>
-							<h4 class="cet-mega-cat-item__title"><?php esc_html_e( 'All Store Collections', 'custom-ecommerce-theme' ); ?></h4>
-							<span class="cet-mega-cat-item__meta"><?php esc_html_e( 'Browse complete WooCommerce catalog', 'custom-ecommerce-theme' ); ?></span>
-						</div>
-					</a>
+				<?php elseif ( function_exists( 'cet_get_showcase_categories' ) ) : ?>
+					<?php foreach ( cet_get_showcase_categories() as $s_cat ) : ?>
+						<a href="<?php echo esc_url( (string) $s_cat['url'] ); ?>" class="cet-mega-cat-item">
+							<div>
+								<h4 class="cet-mega-cat-item__title"><?php echo esc_html( (string) $s_cat['name'] ); ?></h4>
+								<span class="cet-mega-cat-item__meta">
+									<?php
+									printf(
+										/* translators: %d: Number of pieces. */
+										esc_html__( '%d Curated Pieces', 'custom-ecommerce-theme' ),
+										(int) $s_cat['count']
+									);
+									?>
+								</span>
+							</div>
+						</a>
+					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -85,4 +96,3 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 		</div>
 	</div>
 </div>
-

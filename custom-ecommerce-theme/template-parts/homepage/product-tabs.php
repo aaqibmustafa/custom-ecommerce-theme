@@ -2,7 +2,8 @@
 /**
  * Homepage Section: Interactive Product Tabs (Trending, Best-Selling, New Arrivals)
  *
- * Uses native `wc_get_products()` queries.
+ * Uses native `wc_get_products()` queries when WooCommerce products exist,
+ * and seamlessly renders the 8 luxury showcase products when the store is newly installed.
  *
  * @package Custom_Ecommerce_Theme
  */
@@ -11,43 +12,48 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! cet_get_option( 'home_product_tabs_enable', true ) || ! function_exists( 'wc_get_products' ) ) {
+if ( ! cet_get_option( 'home_product_tabs_enable', true ) ) {
 	return;
 }
 
-$limit    = absint( cet_get_option( 'home_product_tabs_count', 8 ) ) ?: 8;
-$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+$limit                = absint( cet_get_option( 'home_product_tabs_count', 8 ) ) ?: 8;
+$trending_products    = array();
+$bestselling_products = array();
+$new_arrivals         = array();
 
-// 1. Trending Products (Featured first, or highest average rating / recent).
-$trending_products = wc_get_products(
-	array(
-		'status'  => 'publish',
-		'limit'   => $limit,
-		'orderby' => 'date',
-		'order'   => 'DESC',
-	)
-);
+if ( function_exists( 'wc_get_products' ) ) {
+	$trending_products = wc_get_products(
+		array(
+			'status'  => 'publish',
+			'limit'   => $limit,
+			'orderby' => 'date',
+			'order'   => 'DESC',
+		)
+	);
 
-// 2. Best-Selling Products (Ordered by total_sales meta via wc_get_products).
-$bestselling_products = wc_get_products(
-	array(
-		'status'   => 'publish',
-		'limit'    => $limit,
-		'meta_key' => 'total_sales', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		'orderby'  => 'meta_value_num',
-		'order'    => 'DESC',
-	)
-);
+	if ( ! empty( $trending_products ) ) {
+		$bestselling_products = wc_get_products(
+			array(
+				'status'   => 'publish',
+				'limit'    => $limit,
+				'meta_key' => 'total_sales', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'orderby'  => 'meta_value_num',
+				'order'    => 'DESC',
+			)
+		);
 
-// 3. New Arrivals.
-$new_arrivals = wc_get_products(
-	array(
-		'status'  => 'publish',
-		'limit'   => $limit,
-		'orderby' => 'ID',
-		'order'   => 'DESC',
-	)
-);
+		$new_arrivals = wc_get_products(
+			array(
+				'status'  => 'publish',
+				'limit'   => $limit,
+				'orderby' => 'ID',
+				'order'   => 'DESC',
+			)
+		);
+	}
+}
+
+$showcase_items = function_exists( 'cet_get_showcase_products' ) ? cet_get_showcase_products() : array();
 ?>
 <section class="cet-section" id="signature-products">
 	<div class="cet-container">
@@ -70,18 +76,8 @@ $new_arrivals = wc_get_products(
 			</div>
 		</div>
 
-		<?php if ( empty( $trending_products ) ) : ?>
-			<div class="cet-empty-state" style="background:var(--color-surface); padding:2.5rem; border:1px solid var(--color-border); border-radius:var(--radius-md); text-align:center;">
-				<h3><?php esc_html_e( 'Ready for Your Products', 'custom-ecommerce-theme' ); ?></h3>
-				<p><?php esc_html_e( 'Add products in WooCommerce > Products to automatically populate Trending, Best Sellers, and New Arrivals.', 'custom-ecommerce-theme' ); ?></p>
-				<?php if ( current_user_can( 'manage_woocommerce' ) ) : ?>
-					<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=product' ) ); ?>" class="cet-btn cet-btn--gold">
-						<?php esc_html_e( 'Add First WooCommerce Product', 'custom-ecommerce-theme' ); ?>
-					</a>
-				<?php endif; ?>
-			</div>
-		<?php else : ?>
-			<!-- Tab 1: Trending -->
+		<?php if ( ! empty( $trending_products ) ) : ?>
+			<!-- Live WooCommerce Products -->
 			<div id="cet-tab-trending" class="cet-tab-panel is-active" role="tabpanel">
 				<div class="cet-products-grid">
 					<?php
@@ -93,7 +89,6 @@ $new_arrivals = wc_get_products(
 				</div>
 			</div>
 
-			<!-- Tab 2: Best Sellers -->
 			<div id="cet-tab-bestsellers" class="cet-tab-panel" role="tabpanel">
 				<div class="cet-products-grid">
 					<?php
@@ -105,7 +100,6 @@ $new_arrivals = wc_get_products(
 				</div>
 			</div>
 
-			<!-- Tab 3: New Arrivals -->
 			<div id="cet-tab-new" class="cet-tab-panel" role="tabpanel">
 				<div class="cet-products-grid">
 					<?php
@@ -116,7 +110,41 @@ $new_arrivals = wc_get_products(
 					?>
 				</div>
 			</div>
+		<?php else : ?>
+			<!-- Built-in Luxury Showcase Products (Displayed automatically until WooCommerce products are added) -->
+			<div id="cet-tab-trending" class="cet-tab-panel is-active" role="tabpanel">
+				<div class="cet-products-grid">
+					<?php
+					foreach ( $showcase_items as $s_item ) {
+						cet_render_showcase_product_card( $s_item );
+					}
+					?>
+				</div>
+			</div>
+
+			<div id="cet-tab-bestsellers" class="cet-tab-panel" role="tabpanel">
+				<div class="cet-products-grid">
+					<?php
+					foreach ( $showcase_items as $s_item ) {
+						if ( in_array( 'bestsellers', (array) $s_item['tab'], true ) ) {
+							cet_render_showcase_product_card( $s_item );
+						}
+					}
+					?>
+				</div>
+			</div>
+
+			<div id="cet-tab-new" class="cet-tab-panel" role="tabpanel">
+				<div class="cet-products-grid">
+					<?php
+					foreach ( $showcase_items as $s_item ) {
+						if ( in_array( 'new', (array) $s_item['tab'], true ) ) {
+							cet_render_showcase_product_card( $s_item );
+						}
+					}
+					?>
+				</div>
+			</div>
 		<?php endif; ?>
 	</div>
 </section>
-
