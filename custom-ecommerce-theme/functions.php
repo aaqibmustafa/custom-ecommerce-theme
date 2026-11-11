@@ -4,7 +4,7 @@
  *
  * @package Custom_Ecommerce_Theme
  * @author  Aaqib Mustafa
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,14 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define core theme constants.
  */
-define( 'CET_VERSION', '1.0.0' );
+define( 'CET_VERSION', '1.1.0' );
 define( 'CET_DIR', trailingslashit( get_template_directory() ) );
 define( 'CET_URI', trailingslashit( get_template_directory_uri() ) );
 define( 'CET_INC_DIR', CET_DIR . 'inc/' );
 define( 'CET_ASSETS_URI', CET_URI . 'assets/' );
 
 /**
- * Load modular theme setup, Customizer, widgets, performance, showcase data, AJAX, and helper files.
+ * Load modular theme setup, Customizer, widgets, performance, showcase data, store pages, AJAX, and helper files.
  */
 $cet_core_includes = array(
 	'inc/theme-setup.php',
@@ -31,6 +31,7 @@ $cet_core_includes = array(
 	'inc/performance.php',
 	'inc/showcase-data.php',
 	'inc/template-functions.php',
+	'inc/store-pages.php',
 	'inc/ajax-handlers.php',
 	'inc/enqueue.php',
 );

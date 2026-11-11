@@ -22,24 +22,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 	<div class="cet-mini-cart-body">
-		<?php
-		if ( function_exists( 'cet_render_free_shipping_progress_bar' ) ) {
-			cet_render_free_shipping_progress_bar();
-		}
-		?>
-		<div class="widget_shopping_cart_content">
+		<?php if ( function_exists( 'woocommerce_mini_cart' ) && function_exists( 'WC' ) && WC()->cart && ! WC()->cart->is_empty() ) : ?>
 			<?php
-			if ( function_exists( 'woocommerce_mini_cart' ) && function_exists( 'WC' ) && WC()->cart ) {
-				woocommerce_mini_cart();
-			} else {
-				?>
+			if ( function_exists( 'cet_render_free_shipping_progress_bar' ) ) {
+				cet_render_free_shipping_progress_bar();
+			}
+			?>
+			<div class="widget_shopping_cart_content">
+				<?php woocommerce_mini_cart(); ?>
+			</div>
+		<?php elseif ( function_exists( 'cet_render_bag_drawer_html' ) ) : ?>
+			<?php echo cet_render_bag_drawer_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php else : ?>
+			<div class="widget_shopping_cart_content">
 				<p class="woocommerce-mini-cart__empty-message">
 					<?php esc_html_e( 'No products in your shopping bag yet.', 'custom-ecommerce-theme' ); ?>
 				</p>
-				<?php
-			}
-			?>
-		</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </aside>
 

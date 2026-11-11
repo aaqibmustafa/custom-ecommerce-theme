@@ -16,7 +16,56 @@
 		document.cookie = `${ name }=${ encodeURIComponent( value ) };expires=${ d.toUTCString() };path=/;SameSite=Lax`;
 	}
 
+	/**
+	 * Helper to read a browser cookie.
+	 */
+	function getCookie( name ) {
+		const prefix = `${ name }=`;
+		const parts = document.cookie.split( ';' );
+		for ( let i = 0; i < parts.length; i += 1 ) {
+			const item = parts[ i ].trim();
+			if ( item.startsWith( prefix ) ) {
+				return decodeURIComponent( item.slice( prefix.length ) );
+			}
+		}
+		return '';
+	}
+
 	document.addEventListener( 'DOMContentLoaded', () => {
+		const openWishlistModal = () => {
+			if ( ! window.cetThemeData || ! window.CET ) return;
+
+			window.CET.openModal( `<p style="text-align:center; padding:2.5rem;">${ window.cetThemeData.i18n.loading }</p>` );
+
+			const currentCookie = getCookie( 'cet_wishlist_ids' );
+			const fallbackIds = Array.isArray( window.cetThemeData.wishlistIds ) ? window.cetThemeData.wishlistIds.join( ',' ) : '';
+
+			const formData = new FormData();
+			formData.append( 'action', 'cet_get_wishlist_modal' );
+			formData.append( 'nonce', window.cetThemeData.nonce );
+			formData.append( 'wishlist_ids', currentCookie || fallbackIds );
+
+			fetch( window.cetThemeData.ajaxUrl, {
+				method: 'POST',
+				body: formData,
+				credentials: 'same-origin',
+			} )
+				.then( ( r ) => r.json() )
+				.then( ( res ) => {
+					if ( res.success && res.data?.html ) {
+						window.CET.openModal( res.data.html );
+					}
+				} )
+				.catch( () => {} );
+		};
+
+		const headerWishlistBtn = document.getElementById( 'cet-open-wishlist-info' );
+		if ( headerWishlistBtn ) {
+			headerWishlistBtn.addEventListener( 'click', ( e ) => {
+				e.preventDefault();
+				openWishlistModal();
+			} );
+		}
 		const compareIds = new Set(
 			Array.isArray( window.cetThemeData?.compareIds )
 				? window.cetThemeData.compareIds.map( Number )
@@ -119,9 +168,15 @@
 
 							if ( Array.isArray( res.data.ids ) ) {
 								setCookie( 'cet_wishlist_ids', res.data.ids.join( ',' ) );
+								if ( window.cetThemeData ) {
+									window.cetThemeData.wishlistIds = res.data.ids;
+								}
 							}
 							if ( res.data.message ) {
 								window.CET.showToast( res.data.message );
+							}
+							if ( wishBtn.getAttribute( 'data-refresh-wishlist-modal' ) === '1' ) {
+								openWishlistModal();
 							}
 						}
 					} )

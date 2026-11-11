@@ -34,7 +34,7 @@ if ( taxonomy_exists( 'product_cat' ) ) {
 
 $section_title    = (string) cet_get_option( 'home_categories_title' );
 $section_subtitle = (string) cet_get_option( 'home_categories_subtitle' );
-$shop_url         = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/#signature-products' );
+$shop_url         = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
 ?>
 <section class="cet-section cet-section--surface" id="featured-categories">
 	<div class="cet-container">

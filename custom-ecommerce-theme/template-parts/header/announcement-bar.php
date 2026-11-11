@@ -42,10 +42,15 @@ $link_url   = (string) cet_get_option( 'announcement_link_url' );
 				);
 				?>
 			<?php else : ?>
-				<?php if ( function_exists( 'wc_get_page_permalink' ) ) : ?>
-					<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Boutique Catalog', 'custom-ecommerce-theme' ); ?></a>
-					<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'Order Tracking', 'custom-ecommerce-theme' ); ?></a>
-				<?php endif; ?>
+				<?php
+				$has_wc_acc  = function_exists( 'cet_has_wc_account_page' ) && cet_has_wc_account_page();
+				$account_url = function_exists( 'cet_get_account_url' ) ? cet_get_account_url() : '#cet-account-portal';
+				$catalog_url = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
+				$track_url   = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'track-order' ) : $account_url;
+				?>
+				<a href="<?php echo esc_url( $catalog_url ); ?>"><?php esc_html_e( 'Boutique Catalog', 'custom-ecommerce-theme' ); ?></a>
+				<a href="<?php echo esc_url( $track_url ); ?>"><?php esc_html_e( 'Track Order', 'custom-ecommerce-theme' ); ?></a>
+				<a href="<?php echo esc_url( $account_url ); ?>" class="<?php echo $has_wc_acc ? '' : 'cet-account-modal-trigger'; ?>"><?php esc_html_e( 'Client Account', 'custom-ecommerce-theme' ); ?></a>
 				<span><?php echo esc_html( (string) cet_get_option( 'footer_phone', '+1 (800) 555-0199' ) ); ?></span>
 			<?php endif; ?>
 		</div>

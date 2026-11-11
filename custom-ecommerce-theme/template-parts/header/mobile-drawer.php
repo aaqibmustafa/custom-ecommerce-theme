@@ -38,12 +38,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 				);
 			} else {
 				?>
+				<?php
+				$has_wc_acc    = function_exists( 'cet_has_wc_account_page' ) && cet_has_wc_account_page();
+				$account_url   = function_exists( 'cet_get_account_url' ) ? cet_get_account_url() : '#cet-account-portal';
+				$shop_url      = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
+				$cart_url      = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'cart' ) : $shop_url;
+				$checkout_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'checkout' ) : $shop_url;
+				$wishlist_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'wishlist' ) : $shop_url;
+				$track_url     = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'track-order' ) : $shop_url;
+				$acct_page_url = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'my-account' ) : $account_url;
+				?>
 				<ul class="cet-mobile-nav-list">
 					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e( 'Home', 'custom-ecommerce-theme' ); ?></a></li>
-					<?php if ( function_exists( 'wc_get_page_permalink' ) ) : ?>
-						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Shop All', 'custom-ecommerce-theme' ); ?></a></li>
-						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'cart' ) ); ?>"><?php esc_html_e( 'Shopping Bag', 'custom-ecommerce-theme' ); ?></a></li>
-						<li><a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'My Account', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop Catalog', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $cart_url ); ?>"><?php esc_html_e( 'Shopping Bag Page', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="#cet-mini-cart-drawer" class="cet-cart-drawer-trigger"><?php esc_html_e( 'Quick Bag Drawer', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $checkout_url ); ?>"><?php esc_html_e( 'Checkout & Delivery', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $wishlist_url ); ?>"><?php esc_html_e( 'Saved Wishlist', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $track_url ); ?>"><?php esc_html_e( 'Track Order', 'custom-ecommerce-theme' ); ?></a></li>
+					<li><a href="<?php echo esc_url( $acct_page_url ); ?>"><?php echo is_user_logged_in() ? esc_html__( 'My Account Page', 'custom-ecommerce-theme' ) : esc_html__( 'Account Sign In / Register', 'custom-ecommerce-theme' ); ?></a></li>
+					<?php if ( ! $has_wc_acc ) : ?>
+						<li><a href="<?php echo esc_url( $account_url ); ?>" class="cet-account-modal-trigger"><?php esc_html_e( 'Quick Sign-In Portal', 'custom-ecommerce-theme' ); ?></a></li>
 					<?php endif; ?>
 				</ul>
 				<?php

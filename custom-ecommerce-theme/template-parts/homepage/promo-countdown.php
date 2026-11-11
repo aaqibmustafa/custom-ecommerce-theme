@@ -17,7 +17,7 @@ $eyebrow     = (string) cet_get_option( 'home_countdown_eyebrow' );
 $title       = (string) cet_get_option( 'home_countdown_title' );
 $target_date = (string) cet_get_option( 'home_countdown_date' );
 $coupon_code = (string) cet_get_option( 'home_countdown_code' );
-$shop_url    = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+$shop_url    = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_url( 'shop' ) : home_url( '/#signature-products' );
 ?>
 <section class="cet-section" id="special-offers">
 	<div class="cet-container">

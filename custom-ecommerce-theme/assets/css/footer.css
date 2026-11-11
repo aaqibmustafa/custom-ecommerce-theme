@@ -226,7 +226,7 @@
 	background-color: #FFFFFF;
 	color: #202938;
 	border-left: 2px solid #D6AD65;
-	z-index: 9995;
+	z-index: 100005;
 	transform: translateX(100%);
 	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	display: flex;
