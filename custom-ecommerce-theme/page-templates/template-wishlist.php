@@ -34,3 +34,4 @@ if ( function_exists( 'cet_breadcrumbs' ) ) {
 
 <?php
 get_footer();
+
