@@ -2,6 +2,9 @@
 /**
  * The template for displaying the multi-column luxury footer
  *
+ * High-contrast Midnight Navy & Champagne Gold footer with prominent Website Name
+ * and Author Credit ("Aaqib Mustafa").
+ *
  * @package Custom_Ecommerce_Theme
  */
 
@@ -9,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$site_name  = get_bloginfo( 'name' ) ?: __( 'Custom E-Commerce Store', 'custom-ecommerce-theme' );
 $about_text = (string) cet_get_option( 'footer_about_text' );
 $phone      = (string) cet_get_option( 'footer_phone' );
 $email      = (string) cet_get_option( 'footer_email' );
@@ -23,7 +27,7 @@ $cart_url   = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_ur
 				<!-- Column 1: Brand Identity & Concierge Contact -->
 				<div class="cet-footer__col">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="cet-footer__brand-title">
-						<?php bloginfo( 'name' ); ?>
+						<?php echo esc_html( $site_name ); ?>
 					</a>
 					<p class="cet-footer__bio"><?php echo esc_html( $about_text ); ?></p>
 					<ul class="cet-footer__contact-list">
@@ -139,19 +143,19 @@ $cart_url   = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_ur
 			</div>
 
 			<div class="cet-footer__bottom">
-				<p style="margin:0;">
-					&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?>
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>.
-					<?php esc_html_e( 'All rights reserved.', 'custom-ecommerce-theme' ); ?>
+				<p class="cet-footer__copyright">
+					<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?></span>
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="cet-footer__site-link">
+						<?php echo esc_html( $site_name ); ?>
+					</a>
+					<span>&mdash; <?php esc_html_e( 'All rights reserved.', 'custom-ecommerce-theme' ); ?></span>
 				</p>
-				<p style="margin:0;">
-					<?php
-					printf(
-						/* translators: %s: Theme author link. */
-						esc_html__( 'Custom E-Commerce Theme Engineered by %s', 'custom-ecommerce-theme' ),
-						'<a href="https://aaqibmustafa.github.io/" target="_blank" rel="noopener noreferrer">Aaqib Mustafa</a>'
-					);
-					?>
+
+				<p class="cet-footer__author">
+					<span><?php esc_html_e( 'Designed & Engineered by', 'custom-ecommerce-theme' ); ?></span>
+					<a href="https://aaqibmustafa.github.io/" class="cet-author-credit-badge" target="_blank" rel="noopener noreferrer">
+						<span>&#9733; Aaqib Mustafa</span>
+					</a>
 				</p>
 			</div>
 		</div>

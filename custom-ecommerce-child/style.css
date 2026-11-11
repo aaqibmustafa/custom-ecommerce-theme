@@ -5,7 +5,7 @@ Description: Official child theme for Custom E-Commerce Theme. Use this child th
 Author: Aaqib Mustafa
 Author URI: https://aaqibmustafa.github.io/
 Template: custom-ecommerce-theme
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.2
@@ -17,18 +17,29 @@ Text Domain: custom-ecommerce-child
 Domain Path: /languages
 */
 
-/* ==========================================================================
-   Child Theme Custom Styles & Token Overrides
-   Inherits all design tokens from Custom E-Commerce Theme:
-   --color-primary:    #14243A (Midnight Navy)
-   --color-accent:     #D6AD65 (Champagne Gold)
-   --color-secondary:  #356AE6 (Electric Blue)
-   --color-background: #F5F7FA (Cloud White)
-   --color-text:       #202938 (Graphite)
-   --color-border:     #E8EDF5 (Soft Slate)
-   ========================================================================== */
+:root {
+	--color-primary: #14243A;
+	--color-primary-light: #1E3454;
+	--color-primary-dark: #0C1726;
+	--color-accent: #D6AD65;
+	--color-accent-hover: #C4974C;
+	--color-accent-soft: rgba(214, 173, 101, 0.16);
+	--color-secondary: #356AE6;
+	--color-secondary-hover: #2554C7;
+	--color-background: #F5F7FA;
+	--color-surface: #FFFFFF;
+	--color-text: #202938;
+	--color-text-muted: #5A6578;
+	--color-border: #E8EDF5;
+}
 
-/* Example: Customize child theme elements below without modifying parent files */
-.cet-child-theme-active {
-	--child-theme-ready: 1;
+/* Ensure crisp visibility for Header & Footer brand identity and author credit in Child Theme */
+.cet-header .cet-brand-link,
+.cet-footer a.cet-footer__brand-title,
+.cet-footer .cet-footer__site-link {
+	color: #FFFFFF !important;
+}
+
+.cet-footer a.cet-author-credit-badge {
+	color: #D6AD65 !important;
 }
