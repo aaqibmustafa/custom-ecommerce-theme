@@ -38,3 +38,4 @@ if ( function_exists( 'cet_breadcrumbs' ) && ! is_front_page() ) {
 
 <?php
 get_footer();
+
