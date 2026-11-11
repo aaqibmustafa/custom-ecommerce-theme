@@ -89,3 +89,4 @@ $allowed_html = array(
 	 */
 	do_action( 'woocommerce_after_my_account' );
 ?>
+
