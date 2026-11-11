@@ -352,3 +352,4 @@ if ( ! function_exists( 'cet_render_showcase_product_card' ) ) {
 		<?php
 	}
 }
+
