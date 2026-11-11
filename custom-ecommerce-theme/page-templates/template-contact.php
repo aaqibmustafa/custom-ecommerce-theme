@@ -134,3 +134,4 @@ $address = (string) cet_get_option( 'footer_address' );
 
 <?php
 get_footer();
+
