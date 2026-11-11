@@ -1,0 +1,34 @@
+/*
+Theme Name: Custom E-Commerce Child
+Theme URI: https://aaqibmustafa.github.io/custom-ecommerce-theme
+Description: Official child theme for Custom E-Commerce Theme. Use this child theme to safely customize styles, templates, and WooCommerce hooks without losing changes during parent theme updates.
+Author: Aaqib Mustafa
+Author URI: https://aaqibmustafa.github.io/
+Template: custom-ecommerce-theme
+Version: 1.0.0
+Requires at least: 6.4
+Tested up to: 7.1
+Requires PHP: 8.2
+WC requires at least: 8.0
+WC tested up to: 9.5
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: custom-ecommerce-child
+Domain Path: /languages
+*/
+
+/* ==========================================================================
+   Child Theme Custom Styles & Token Overrides
+   Inherits all design tokens from Custom E-Commerce Theme:
+   --color-primary:    #14243A (Midnight Navy)
+   --color-accent:     #D6AD65 (Champagne Gold)
+   --color-secondary:  #356AE6 (Electric Blue)
+   --color-background: #F5F7FA (Cloud White)
+   --color-text:       #202938 (Graphite)
+   --color-border:     #E8EDF5 (Soft Slate)
+   ========================================================================== */
+
+/* Example: Customize child theme elements below without modifying parent files */
+.cet-child-theme-active {
+	--child-theme-ready: 1;
+}

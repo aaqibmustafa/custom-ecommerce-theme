@@ -1,0 +1,547 @@
+/**
+ * Custom E-Commerce Theme — Header, Announcement Bar, Mega Menu, Live Search & Mobile Drawer
+ */
+
+/* 1. Top Announcement Bar */
+.cet-announcement-bar {
+	background-color: var(--color-primary-dark);
+	color: var(--color-surface);
+	border-bottom: 1px solid rgba(214, 173, 101, 0.28);
+	font-size: 0.8125rem;
+	padding: 0.55rem 0;
+	position: relative;
+	z-index: 1002;
+}
+
+.cet-announcement-bar__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.cet-announcement-bar__promo {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	margin: 0;
+}
+
+.cet-announcement-bar__badge {
+	background-color: var(--color-accent);
+	color: var(--color-primary);
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	padding: 0.15rem 0.5rem;
+	border-radius: 3px;
+}
+
+.cet-announcement-bar__link {
+	color: var(--color-accent);
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.cet-announcement-bar__link:hover {
+	color: var(--color-surface);
+}
+
+.cet-announcement-bar__utils {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+}
+
+.cet-announcement-bar__utils a {
+	color: rgba(245, 247, 250, 0.82);
+	font-size: 0.78rem;
+}
+
+.cet-announcement-bar__utils a:hover {
+	color: var(--color-accent);
+}
+
+/* 2. Main Site Header */
+.cet-header {
+	background-color: var(--color-primary);
+	color: var(--color-surface);
+	border-bottom: 2px solid var(--color-accent);
+	position: relative;
+	z-index: 1000;
+	transition: box-shadow var(--transition-base), background-color var(--transition-base);
+}
+
+.cet-header.is-sticky {
+	position: sticky;
+	top: 0;
+	box-shadow: 0 10px 30px rgba(12, 23, 38, 0.28);
+}
+
+.admin-bar .cet-header.is-sticky {
+	top: 32px;
+}
+
+.cet-header__main {
+	display: grid;
+	grid-template-columns: auto minmax(260px, 540px) auto;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding-top: 1.15rem;
+	padding-bottom: 1.15rem;
+}
+
+/* Site Branding */
+.cet-header__branding {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.cet-brand-link {
+	color: var(--color-surface);
+	font-family: var(--font-heading);
+	font-size: 1.6rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1.1;
+	display: inline-block;
+}
+
+.cet-brand-link:hover {
+	color: var(--color-accent);
+}
+
+.cet-brand-tagline {
+	margin: 0.2rem 0 0;
+	font-size: 0.75rem;
+	color: var(--color-accent);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+/* 3. Header Live Product Search Bar */
+.cet-header-search {
+	position: relative;
+	width: 100%;
+}
+
+.cet-search-form {
+	display: flex;
+	align-items: stretch;
+	background-color: var(--color-surface);
+	border: 1px solid rgba(214, 173, 101, 0.5);
+	border-radius: var(--radius-sm);
+	overflow: hidden;
+}
+
+.cet-search-form:focus-within {
+	border-color: var(--color-accent);
+	box-shadow: 0 0 0 3px rgba(214, 173, 101, 0.25);
+}
+
+.cet-search-form__cat {
+	width: auto;
+	max-width: 150px;
+	border: 0;
+	border-right: 1px solid var(--color-border);
+	border-radius: 0;
+	background-color: #F8FAFC;
+	font-size: 0.8125rem;
+	color: var(--color-primary);
+	padding: 0 0.75rem;
+}
+
+.cet-search-form__input {
+	flex: 1;
+	border: 0 !important;
+	box-shadow: none !important;
+	padding: 0.65rem 1rem;
+	font-size: 0.9rem;
+}
+
+.cet-search-form__submit {
+	background-color: var(--color-accent);
+	color: var(--color-primary);
+	border: 0;
+	padding: 0 1.15rem;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.cet-search-form__submit:hover {
+	background-color: var(--color-primary-light);
+	color: var(--color-accent);
+}
+
+/* Live Search Suggestions Dropdown */
+.cet-search-results {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	right: 0;
+	background-color: var(--color-surface);
+	color: var(--color-text);
+	border: 1px solid var(--color-accent);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-md);
+	z-index: 1010;
+	display: none;
+	max-height: 420px;
+	overflow-y: auto;
+}
+
+.cet-search-results.is-open {
+	display: block;
+}
+
+.cet-search-item {
+	display: flex;
+	align-items: center;
+	gap: 0.9rem;
+	padding: 0.75rem 1rem;
+	border-bottom: 1px solid var(--color-border);
+	color: var(--color-text);
+}
+
+.cet-search-item:hover {
+	background-color: var(--color-background);
+}
+
+.cet-search-item__img {
+	width: 48px;
+	height: 48px;
+	border-radius: 6px;
+	object-fit: cover;
+	border: 1px solid var(--color-border);
+}
+
+.cet-search-item__title {
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: var(--color-primary);
+	margin: 0 0 0.15rem;
+}
+
+.cet-search-item__price {
+	font-size: 0.82rem;
+	color: var(--color-accent-hover);
+	font-weight: 700;
+}
+
+/* 4. Header Action Icons (Account, Wishlist, Compare, Cart) */
+.cet-header__actions {
+	display: flex;
+	align-items: center;
+	gap: 1.1rem;
+}
+
+.cet-header-action {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: var(--color-surface);
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	padding: 0.5rem 0.85rem;
+	border-radius: var(--radius-sm);
+	font-size: 0.82rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all var(--transition-base);
+}
+
+.cet-header-action:hover,
+.cet-header-action:focus-visible {
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+	background-color: rgba(214, 173, 101, 0.1);
+}
+
+.cet-action-badge {
+	background-color: var(--color-accent);
+	color: var(--color-primary);
+	font-size: 0.7rem;
+	font-weight: 700;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 5px;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Mobile Menu Trigger */
+.cet-mobile-toggle {
+	display: none;
+	background: transparent;
+	border: 1px solid var(--color-accent);
+	color: var(--color-accent);
+	width: 42px;
+	height: 42px;
+	border-radius: var(--radius-sm);
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+/* 5. Bottom Navigation Bar & Mega Menu */
+.cet-header__nav-bar {
+	background-color: var(--color-primary-light);
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	position: relative;
+}
+
+.cet-header__nav-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+}
+
+/* Department Mega Menu Trigger */
+.cet-mega-trigger-wrap {
+	position: relative;
+}
+
+.cet-mega-trigger {
+	background-color: var(--color-accent);
+	color: var(--color-primary);
+	border: 0;
+	padding: 0.8rem 1.35rem;
+	font-family: var(--font-primary);
+	font-size: 0.875rem;
+	font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+	cursor: pointer;
+	transition: all var(--transition-base);
+}
+
+.cet-mega-trigger:hover,
+.cet-mega-trigger[aria-expanded="true"] {
+	background-color: var(--color-surface);
+	color: var(--color-primary);
+}
+
+.cet-mega-panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: min(960px, 92vw);
+	background-color: var(--color-surface);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+	border-top: 3px solid var(--color-accent);
+	border-radius: 0 0 var(--radius-md) var(--radius-md);
+	box-shadow: 0 20px 50px rgba(12, 23, 38, 0.22);
+	padding: 2rem;
+	display: none;
+	grid-template-columns: 1.5fr 1fr;
+	gap: 2rem;
+	z-index: 1005;
+}
+
+.cet-mega-trigger-wrap:hover .cet-mega-panel,
+.cet-mega-trigger-wrap.is-open .cet-mega-panel {
+	display: grid;
+}
+
+.cet-mega-cats-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.25rem;
+}
+
+.cet-mega-cat-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--color-border);
+	transition: border-color var(--transition-base);
+}
+
+.cet-mega-cat-item:hover {
+	border-color: var(--color-accent);
+	background-color: var(--color-background);
+}
+
+.cet-mega-cat-item__title {
+	font-weight: 700;
+	font-size: 0.92rem;
+	color: var(--color-primary);
+	margin: 0 0 0.2rem;
+}
+
+.cet-mega-cat-item__meta {
+	font-size: 0.78rem;
+	color: var(--color-text-muted);
+}
+
+.cet-mega-spotlight {
+	background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+	color: var(--color-surface);
+	border-radius: var(--radius-md);
+	padding: 1.75rem;
+	border: 1px solid var(--color-accent);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.cet-mega-spotlight h4 {
+	color: var(--color-surface);
+	font-size: 1.25rem;
+}
+
+/* Primary Menu List */
+.cet-nav__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	gap: 1.75rem;
+}
+
+.cet-nav__list > li {
+	position: relative;
+}
+
+.cet-nav__list > li > a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.85rem 0;
+	color: var(--color-surface);
+	font-size: 0.9rem;
+	font-weight: 500;
+	border-bottom: 2px solid transparent;
+}
+
+.cet-nav__list > li > a:hover,
+.cet-nav__list > li.current-menu-item > a,
+.cet-nav__list > li.current_page_item > a {
+	color: var(--color-accent);
+	border-bottom-color: var(--color-accent);
+}
+
+/* Submenus */
+.cet-nav__list ul.sub-menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 220px;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-top: 2px solid var(--color-accent);
+	border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+	box-shadow: var(--shadow-md);
+	list-style: none;
+	padding: 0.5rem 0;
+	margin: 0;
+	display: none;
+	z-index: 1005;
+}
+
+.cet-nav__list li:hover > ul.sub-menu,
+.cet-nav__list li:focus-within > ul.sub-menu {
+	display: block;
+}
+
+.cet-nav__list ul.sub-menu li a {
+	display: block;
+	padding: 0.55rem 1.15rem;
+	color: var(--color-text);
+	font-size: 0.875rem;
+}
+
+.cet-nav__list ul.sub-menu li a:hover {
+	background-color: var(--color-background);
+	color: var(--color-accent-hover);
+}
+
+.cet-header__concierge {
+	font-size: 0.82rem;
+	color: var(--color-accent);
+	font-weight: 600;
+}
+
+/* 6. Mobile Off-Canvas Navigation Drawer */
+.cet-drawer-backdrop {
+	position: fixed;
+	inset: 0;
+	background-color: rgba(12, 23, 38, 0.65);
+	z-index: 9990;
+	display: none;
+}
+
+.cet-drawer-backdrop.is-open {
+	display: block;
+}
+
+.cet-mobile-drawer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: min(340px, 88vw);
+	background-color: var(--color-primary);
+	color: var(--color-surface);
+	border-right: 2px solid var(--color-accent);
+	z-index: 9995;
+	transform: translateX(-100%);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
+
+.cet-mobile-drawer.is-open {
+	transform: translateX(0);
+}
+
+.cet-mobile-drawer__header {
+	padding: 1.25rem 1.5rem;
+	border-bottom: 1px solid rgba(214, 173, 101, 0.25);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.cet-mobile-drawer__body {
+	padding: 1.5rem;
+	flex: 1;
+}
+
+.cet-mobile-nav-list {
+	list-style: none;
+	margin: 1.25rem 0 0;
+	padding: 0;
+}
+
+.cet-mobile-nav-list li {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cet-mobile-nav-list a {
+	display: block;
+	padding: 0.85rem 0;
+	color: var(--color-surface);
+	font-weight: 500;
+}
+
+.cet-mobile-nav-list a:hover {
+	color: var(--color-accent);
+}

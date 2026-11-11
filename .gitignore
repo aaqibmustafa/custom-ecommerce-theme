@@ -1,0 +1,14 @@
+# OS & Editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Node / Build artifacts (if any used during local dev)
+node_modules/
+npm-debug.log*
+
+# Distribution ZIPs (built in Phase 14)
+*.zip
+

@@ -1,0 +1,332 @@
+/**
+ * Custom E-Commerce Theme — Global Layout, Typography & Section Architecture
+ *
+ * Brand Palette:
+ * - Primary (Midnight Navy):   #14243A
+ * - Accent (Champagne Gold):   #D6AD65
+ * - Secondary (Electric Blue): #356AE6
+ * - Background (Cloud White):  #F5F7FA
+ * - Text (Graphite):           #202938
+ * - Border (Soft Slate):       #E8EDF5
+ */
+
+/* Typography Scale */
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-heading);
+	color: var(--color-primary);
+	margin-top: 0;
+	margin-bottom: 0.75rem;
+	line-height: 1.22;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2rem, 3.5vw, 3rem); }
+h2 { font-size: clamp(1.625rem, 2.6vw, 2.25rem); }
+h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+p {
+	margin-top: 0;
+	margin-bottom: 1.15rem;
+}
+
+/* Focus Accessibility */
+:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 2px;
+}
+
+/* Containers */
+.cet-container {
+	width: 100%;
+	max-width: var(--container-max-width);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+.cet-container--wide {
+	max-width: var(--container-wide-width);
+}
+
+/* Main Content Wrapper */
+.cet-main {
+	padding-top: 2.5rem;
+	padding-bottom: 4.5rem;
+	min-height: 65vh;
+}
+
+.cet-front-page .cet-main {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+/* Section Spacing & Backgrounds */
+.cet-section {
+	padding-top: 4.5rem;
+	padding-bottom: 4.5rem;
+	position: relative;
+}
+
+.cet-section--surface {
+	background-color: var(--color-surface);
+	border-top: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.cet-section--navy {
+	background-color: var(--color-primary);
+	color: var(--color-surface);
+}
+
+.cet-section--navy h2,
+.cet-section--navy h3,
+.cet-section--navy h4 {
+	color: var(--color-surface);
+}
+
+/* Section Headers & Champagne Gold Dividers */
+.cet-section-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1.25rem;
+	margin-bottom: 2.5rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid var(--color-border);
+	position: relative;
+}
+
+.cet-section-header::after {
+	content: '';
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 72px;
+	height: 3px;
+	background-color: var(--color-accent);
+}
+
+.cet-section-header--center {
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.cet-section-header--center::after {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.cet-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-family: var(--font-primary);
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: var(--color-accent);
+	margin-bottom: 0.5rem;
+}
+
+.cet-section-title {
+	margin-bottom: 0.35rem;
+}
+
+.cet-section-subtitle {
+	color: var(--color-text-muted);
+	font-size: 0.975rem;
+	margin-bottom: 0;
+	max-width: 640px;
+}
+
+/* Grid Systems */
+.cet-grid-cols-2 {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.75rem;
+}
+
+.cet-grid-cols-3 {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1.75rem;
+}
+
+.cet-grid-cols-4,
+.cet-products-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1.75rem;
+}
+
+.cet-grid-cols-5 {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 1.5rem;
+}
+
+.cet-grid-cols-6 {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 1.25rem;
+}
+
+/* Two-Column Sidebar Layout (Blog & Shop) */
+.cet-layout-with-sidebar {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 310px;
+	gap: 2.5rem;
+	align-items: start;
+}
+
+.cet-layout-with-sidebar--left {
+	grid-template-columns: 290px minmax(0, 1fr);
+}
+
+.cet-layout-full-width {
+	display: block;
+}
+
+/* Breadcrumbs Bar */
+.cet-breadcrumbs-bar {
+	background-color: var(--color-surface);
+	border-bottom: 1px solid var(--color-border);
+	padding: 0.85rem 0;
+	font-size: 0.84rem;
+}
+
+.cet-breadcrumbs {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.45rem;
+	color: var(--color-text-muted);
+}
+
+.cet-breadcrumb__item {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.cet-breadcrumb__item a {
+	color: var(--color-primary);
+	font-weight: 500;
+}
+
+.cet-breadcrumb__item a:hover {
+	color: var(--color-accent);
+}
+
+.cet-breadcrumb__sep {
+	color: var(--color-accent);
+	font-weight: 600;
+}
+
+.cet-breadcrumb__current {
+	color: var(--color-text-muted);
+}
+
+/* Sidebar Widgets */
+.cet-sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.cet-widget {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	padding: 1.5rem;
+	box-shadow: var(--shadow-sm);
+}
+
+.cet-widget__title {
+	font-family: var(--font-heading);
+	font-size: 1.125rem;
+	margin-top: 0;
+	margin-bottom: 1.15rem;
+	padding-bottom: 0.65rem;
+	border-bottom: 1px solid var(--color-border);
+	position: relative;
+}
+
+.cet-widget__title::after {
+	content: '';
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 38px;
+	height: 2px;
+	background-color: var(--color-accent);
+}
+
+.cet-widget ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.cet-widget ul li {
+	padding: 0.45rem 0;
+	border-bottom: 1px dashed var(--color-border);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 0.925rem;
+}
+
+.cet-widget ul li:last-child {
+	border-bottom: 0;
+}
+
+/* Pagination */
+.navigation.pagination .nav-links,
+.woocommerce-pagination ul.page-numbers {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-top: 3rem;
+	list-style: none;
+	padding: 0;
+}
+
+.navigation.pagination .page-numbers,
+.woocommerce-pagination ul.page-numbers li .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 42px;
+	height: 42px;
+	padding: 0 0.9rem;
+	border-radius: var(--radius-sm);
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	color: var(--color-primary);
+	font-weight: 600;
+	font-size: 0.9rem;
+	transition: all var(--transition-base);
+}
+
+.navigation.pagination .page-numbers.current,
+.navigation.pagination .page-numbers:hover,
+.woocommerce-pagination ul.page-numbers li .page-numbers.current,
+.woocommerce-pagination ul.page-numbers li .page-numbers:hover {
+	background-color: var(--color-primary);
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}

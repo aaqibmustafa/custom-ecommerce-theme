@@ -1,0 +1,77 @@
+/**
+ * Custom E-Commerce Theme — Right-to-Left (RTL) Language Support
+ *
+ * Automatically enqueued when `is_rtl()` is true.
+ */
+
+body.rtl {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+.rtl .cet-section-header::after,
+.rtl .cet-widget__title::after,
+.rtl .cet-footer__heading::after {
+	left: auto;
+	right: 0;
+}
+
+.rtl .cet-section-header--center::after {
+	right: 50%;
+	transform: translateX(50%);
+}
+
+.rtl .cet-promo-card,
+.rtl .cet-product-trust-box,
+.rtl .cet-shipping-goal,
+.rtl .cet-toast,
+.rtl .woocommerce-message,
+.rtl .woocommerce-info,
+.rtl .woocommerce-error {
+	border-left: 1px solid var(--color-border);
+	border-right: 4px solid var(--color-accent);
+}
+
+.rtl .cet-product-card__badges {
+	left: auto;
+	right: 0.85rem;
+}
+
+.rtl .cet-product-card__quick-actions {
+	right: auto;
+	left: 0.85rem;
+}
+
+.rtl .cet-mega-panel,
+.rtl .cet-nav__list ul.sub-menu {
+	left: auto;
+	right: 0;
+}
+
+.rtl .cet-mobile-drawer {
+	left: auto;
+	right: 0;
+	border-right: 0;
+	border-left: 2px solid var(--color-accent);
+	transform: translateX(100%);
+}
+
+.rtl .cet-mobile-drawer.is-open {
+	transform: translateX(0);
+}
+
+.rtl .cet-mini-cart-drawer {
+	right: auto;
+	left: 0;
+	border-left: 0;
+	border-right: 2px solid var(--color-accent);
+	transform: translateX(-100%);
+}
+
+.rtl .cet-mini-cart-drawer.is-open {
+	transform: translateX(0);
+}
+
+.rtl .woocommerce table.shop_table th {
+	text-align: right;
+}
