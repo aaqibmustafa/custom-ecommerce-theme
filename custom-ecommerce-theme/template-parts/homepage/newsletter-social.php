@@ -61,3 +61,4 @@ if ( ! $show_newsletter && ! $show_social ) {
 		<?php endif; ?>
 	</div>
 </section>
+

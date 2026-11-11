@@ -93,3 +93,4 @@ if ( 'left-sidebar' === $sidebar_layout ) {
 do_action( 'woocommerce_after_main_content' );
 
 get_footer( 'shop' );
+

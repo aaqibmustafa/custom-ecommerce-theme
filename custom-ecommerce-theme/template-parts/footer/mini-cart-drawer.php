@@ -73,3 +73,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <!-- Toast Notifications Container -->
 <div id="cet-toast-container" class="cet-toast-container" aria-live="polite"></div>
+

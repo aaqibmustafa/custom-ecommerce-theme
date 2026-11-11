@@ -24,3 +24,4 @@ msgstr ""
 #: inc/theme-setup.php:46
 msgid "Mobile Navigation Drawer"
 msgstr ""
+

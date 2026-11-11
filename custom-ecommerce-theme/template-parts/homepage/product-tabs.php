@@ -119,3 +119,4 @@ $new_arrivals = wc_get_products(
 		<?php endif; ?>
 	</div>
 </section>
+

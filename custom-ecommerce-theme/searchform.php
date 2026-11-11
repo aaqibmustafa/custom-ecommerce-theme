@@ -27,3 +27,4 @@ $unique_id = wp_unique_id( 'cet-search-form-' );
 		<?php echo cet_get_svg_icon( 'search', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</button>
 </form>
+

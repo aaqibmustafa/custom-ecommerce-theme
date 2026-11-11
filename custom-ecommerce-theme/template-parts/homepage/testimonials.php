@@ -78,3 +78,4 @@ $reviews = get_comments(
 		</div>
 	</div>
 </section>
+

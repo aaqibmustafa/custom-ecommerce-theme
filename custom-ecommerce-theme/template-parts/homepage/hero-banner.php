@@ -108,3 +108,4 @@ $side_2_sub     = (string) cet_get_option( 'hero_side_2_subtitle' );
 		</div>
 	</div>
 </section>
+

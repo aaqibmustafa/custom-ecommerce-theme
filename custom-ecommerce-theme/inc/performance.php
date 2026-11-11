@@ -110,3 +110,4 @@ if ( ! function_exists( 'cet_get_svg_icon' ) ) {
 		);
 	}
 }
+

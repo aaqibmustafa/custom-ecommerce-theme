@@ -73,3 +73,4 @@ $sidebar_id      = $is_shop_context ? 'sidebar-shop' : 'sidebar-blog';
 		</section>
 	<?php endif; ?>
 </aside><!-- #secondary -->
+

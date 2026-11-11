@@ -70,3 +70,4 @@ $has_sidebar = is_active_sidebar( 'sidebar-blog' ) && 'full-width' !== cet_get_o
 
 <?php
 get_footer();
+

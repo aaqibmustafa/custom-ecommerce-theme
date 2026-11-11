@@ -36,3 +36,4 @@ $brands = array(
 		</div>
 	</div>
 </section>
+

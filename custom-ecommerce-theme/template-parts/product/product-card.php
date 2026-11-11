@@ -160,3 +160,4 @@ if ( cet_get_option( 'product_card_show_category', true ) ) {
 		</div>
 	</div>
 </article>
+

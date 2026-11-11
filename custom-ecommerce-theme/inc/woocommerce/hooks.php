@@ -215,3 +215,4 @@ function cet_related_products_args( array $args ): array {
 	return $args;
 }
 add_filter( 'woocommerce_output_related_products_args', 'cet_related_products_args', 20 );
+

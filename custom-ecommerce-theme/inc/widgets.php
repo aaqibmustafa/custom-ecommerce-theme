@@ -59,3 +59,4 @@ function cet_widgets_init(): void {
 	}
 }
 add_action( 'widgets_init', 'cet_widgets_init' );
+

@@ -88,3 +88,4 @@ Navigate to **Appearance > Customize > Custom E-Commerce Theme Options**:
 - **Child Theme (`custom-ecommerce-child/`):** References `Template: custom-ecommerce-theme` in `style.css` and enqueues child overrides after all parent CSS modules.
   - To override any template file (e.g., `header.php` or `template-parts/product/product-card.php`), copy it into the same relative path inside `custom-ecommerce-child/`.
   - To modify default Customizer values via PHP, use the `cet_default_theme_options` filter inside `custom-ecommerce-child/functions.php`.
+

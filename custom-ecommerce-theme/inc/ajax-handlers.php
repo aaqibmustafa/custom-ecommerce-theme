@@ -468,3 +468,4 @@ function cet_ajax_newsletter_subscribe(): void {
 }
 add_action( 'wp_ajax_cet_newsletter_subscribe', 'cet_ajax_newsletter_subscribe' );
 add_action( 'wp_ajax_nopriv_cet_newsletter_subscribe', 'cet_ajax_newsletter_subscribe' );
+

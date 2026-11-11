@@ -531,3 +531,4 @@ function cet_get_customizer_Dynamic_css(): string {
 		$width
 	);
 }
+

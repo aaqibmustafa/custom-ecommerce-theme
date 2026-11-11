@@ -51,3 +51,4 @@ $link_url   = (string) cet_get_option( 'announcement_link_url' );
 		</div>
 	</div>
 </div>
+

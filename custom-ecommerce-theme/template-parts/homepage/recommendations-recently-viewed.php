@@ -73,3 +73,4 @@ if ( empty( $recommended_products ) && empty( $recent_products ) ) {
 		<?php endif; ?>
 	</div>
 </section>
+

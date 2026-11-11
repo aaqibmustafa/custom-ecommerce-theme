@@ -24,3 +24,4 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	get_template_part( 'template-parts/product/product-card' );
 	?>
 </li>
+

@@ -43,3 +43,4 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 
 <?php
 get_footer();
+
