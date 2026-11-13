@@ -30,6 +30,28 @@ $acct_page_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_pa
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<script>
+		(function() {
+			try {
+				var saved = localStorage.getItem('cet_theme_mode');
+				var def = <?php echo wp_json_encode( cet_get_option( 'default_color_mode', 'light' ) ); ?>;
+				var mode = saved;
+				if (!mode || (mode !== 'dark' && mode !== 'light')) {
+					if (def === 'dark' || (def === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+						mode = 'dark';
+					} else {
+						mode = 'light';
+					}
+				}
+				document.documentElement.setAttribute('data-theme', mode);
+				if (mode === 'dark') {
+					document.documentElement.classList.add('cet-dark-mode');
+				} else {
+					document.documentElement.classList.remove('cet-dark-mode');
+				}
+			} catch (e) {}
+		})();
+	</script>
 	<?php wp_head(); ?>
 </head>
 
@@ -51,7 +73,7 @@ $acct_page_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_pa
 					<?php echo cet_get_svg_icon( 'menu', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</button>
 
-				<div>
+				<div class="cet-header__brand-wrap">
 					<?php
 					if ( has_custom_logo() ) {
 						the_custom_logo();
@@ -120,6 +142,21 @@ $acct_page_url  = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_pa
 
 			<!-- 3. Account, Wishlist & Shopping Bag Actions -->
 			<div class="cet-header__actions">
+				<button
+					type="button"
+					class="cet-header-action cet-theme-toggle-btn"
+					id="cet-theme-toggle"
+					aria-label="<?php esc_attr_e( 'Toggle Color Scheme (Light / Dark)', 'custom-ecommerce-theme' ); ?>"
+					title="<?php esc_attr_e( 'Switch Color Mode', 'custom-ecommerce-theme' ); ?>"
+				>
+					<span class="cet-theme-toggle__icon cet-theme-toggle__icon--moon" aria-hidden="true">
+						<?php echo cet_get_svg_icon( 'moon', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					</span>
+					<span class="cet-theme-toggle__icon cet-theme-toggle__icon--sun" aria-hidden="true">
+						<?php echo cet_get_svg_icon( 'sun', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					</span>
+				</button>
+
 				<a
 					href="<?php echo esc_url( $account_url ); ?>"
 					class="cet-header-action <?php echo $has_wc_account ? '' : 'cet-account-modal-trigger'; ?>"
