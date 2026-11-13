@@ -18,15 +18,22 @@ if ( ! cet_get_option( 'home_categories_enable', true ) ) {
 
 $categories = array();
 if ( taxonomy_exists( 'product_cat' ) ) {
-	$terms = get_terms(
-		array(
-			'taxonomy'   => 'product_cat',
-			'hide_empty' => false,
-			'parent'     => 0,
-			'number'     => 6,
-			'exclude'    => array( (int) get_option( 'default_product_cat', 0 ) ),
-		)
+	$term_args = array(
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => false,
+		'number'     => 6,
 	);
+
+	// Exclude the default 'uncategorized' term only if it has no products.
+	$default_cat_id = (int) get_option( 'default_product_cat', 0 );
+	if ( $default_cat_id > 0 ) {
+		$def_term = get_term( $default_cat_id, 'product_cat' );
+		if ( $def_term && ! is_wp_error( $def_term ) && 'uncategorized' === $def_term->slug && 0 === (int) $def_term->count ) {
+			$term_args['exclude'] = array( $default_cat_id );
+		}
+	}
+
+	$terms = get_terms( $term_args );
 	if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 		$categories = $terms;
 	}
@@ -57,6 +64,21 @@ $shop_url         = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_
 					<?php
 					$thumb_id  = (int) get_term_meta( $cat->term_id, 'thumbnail_id', true );
 					$thumb_url = $thumb_id ? wp_get_attachment_image_url( $thumb_id, 'woocommerce_thumbnail' ) : '';
+
+					// If no category-specific thumbnail is uploaded, use the featured image of the latest product in this category as a fallback.
+					if ( ! $thumb_url && function_exists( 'wc_get_products' ) ) {
+						$cat_preview_products = wc_get_products(
+							array(
+								'status'   => 'publish',
+								'limit'    => 1,
+								'category' => array( $cat->slug ),
+							)
+						);
+						if ( ! empty( $cat_preview_products ) && $cat_preview_products[0]->get_image_id() ) {
+							$thumb_url = wp_get_attachment_image_url( $cat_preview_products[0]->get_image_id(), 'woocommerce_thumbnail' );
+						}
+					}
+
 					$cat_link  = get_term_link( $cat );
 					$initial   = mb_substr( $cat->name, 0, 1 );
 					?>

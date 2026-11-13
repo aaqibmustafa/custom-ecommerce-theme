@@ -74,7 +74,7 @@ $editorial_fallbacks = array(
 					$idx++;
 					?>
 					<article <?php post_class( 'cet-card cet-post-card' ); ?>>
-						<div class="cet-post-card__thumbnail" style="aspect-ratio:16/10; overflow:hidden; background:#14243A;">
+						<div class="cet-post-card__thumbnail" style="aspect-ratio:16/10; overflow:hidden; background:var(--color-brand-navy);">
 							<a href="<?php the_permalink(); ?>" style="display:block; width:100%; height:100%;">
 								<?php if ( has_post_thumbnail() ) : ?>
 									<?php the_post_thumbnail( 'cet-blog-card' ); ?>
@@ -101,7 +101,7 @@ $editorial_fallbacks = array(
 							<h3 class="cet-post-card__title">
 								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 							</h3>
-							<p style="color:#5A6578; font-size:0.92rem;">
+							<p style="color:var(--color-text-muted); font-size:0.92rem;">
 								<?php echo esc_html( wp_trim_words( get_the_excerpt(), 18 ) ); ?>
 							</p>
 							<a href="<?php the_permalink(); ?>" class="cet-btn cet-btn--outline cet-btn--sm">
@@ -116,7 +116,7 @@ $editorial_fallbacks = array(
 			<?php else : ?>
 				<?php foreach ( $editorial_fallbacks as $article ) : ?>
 					<article class="cet-card cet-post-card">
-						<div class="cet-post-card__thumbnail" style="aspect-ratio:16/10; overflow:hidden; background:#14243A;">
+						<div class="cet-post-card__thumbnail" style="aspect-ratio:16/10; overflow:hidden; background:var(--color-brand-navy);">
 							<?php if ( function_exists( 'cet_get_showcase_product_svg' ) ) : ?>
 								<?php echo cet_get_showcase_product_svg( $article['svg_type'], $article['sku'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							<?php endif; ?>
@@ -138,7 +138,7 @@ $editorial_fallbacks = array(
 							<h3 class="cet-post-card__title">
 								<a href="#latest-journal"><?php echo esc_html( $article['title'] ); ?></a>
 							</h3>
-							<p style="color:#5A6578; font-size:0.92rem;">
+							<p style="color:var(--color-text-muted); font-size:0.92rem;">
 								<?php echo esc_html( $article['excerpt'] ); ?>
 							</p>
 							<a href="#signature-products" class="cet-btn cet-btn--outline cet-btn--sm">

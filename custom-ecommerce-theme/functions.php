@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define core theme constants.
  */
-define( 'CET_VERSION', '1.1.0' );
+define( 'CET_VERSION', '1.4.1' );
 define( 'CET_DIR', trailingslashit( get_template_directory() ) );
 define( 'CET_URI', trailingslashit( get_template_directory_uri() ) );
 define( 'CET_INC_DIR', CET_DIR . 'inc/' );

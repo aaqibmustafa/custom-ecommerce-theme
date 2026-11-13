@@ -4,7 +4,7 @@ Theme URI: https://aaqibmustafa.github.io/custom-ecommerce-theme
 Author: Aaqib Mustafa
 Author URI: https://aaqibmustafa.github.io/
  * Description: A custom, luxury-grade, high-conversion WooCommerce WordPress hybrid classic theme featuring the Midnight Navy (#14243A), Champagne Gold (#D6AD65), and Electric Blue (#356AE6) design system. Built with modular PHP 8.2+ architecture, native WordPress Customizer & Gutenberg integration, and full WooCommerce compatibility.
-Version: 1.1.0
+Version: 1.4.1
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.2
@@ -18,20 +18,83 @@ Tags: e-commerce, custom-background, custom-colors, custom-header, custom-logo, 
 */
 
 :root {
-	/* Brand Color Palette */
-	--color-primary: #14243A;
-	--color-primary-light: #1E3454;
-	--color-primary-dark: #0C1726;
-	--color-accent: #D6AD65;
-	--color-accent-hover: #C4974C;
-	--color-accent-soft: rgba(214, 173, 101, 0.14);
-	--color-secondary: #356AE6;
-	--color-secondary-hover: #2554C7;
-	--color-background: #F5F7FA;
+	color-scheme: light;
+	/* --------------------------------------------------------------------------
+	 * 1. November 2026 Bespoke Luxury Theme Tokens (Haute Light Mode — Default)
+	 * -------------------------------------------------------------------------- */
+	--color-background: #F8F9FC;
 	--color-surface: #FFFFFF;
-	--color-text: #202938;
-	--color-text-muted: #5A6578;
-	--color-border: #E8EDF5;
+	--color-surface-subtle: #F1F4F9;
+	--color-surface-elevated: #FFFFFF;
+
+	--color-primary: #112033;
+	--color-primary-light: #1D3350;
+	--color-primary-dark: #0A1421;
+
+	/* Mode-invariant brand navy & contrast foreground tokens */
+	--color-brand-navy: #112033;
+	--color-brand-navy-light: #1D3350;
+	--color-on-dark: #FFFFFF;
+	--color-on-accent: #09101A;
+
+	--color-accent: #C99B4A;
+	--color-accent-hover: #B48737;
+	--color-accent-soft: rgba(201, 155, 74, 0.12);
+
+	--color-secondary: #2E63E6;
+	--color-secondary-hover: #1E4ECC;
+
+	--color-text: #162232;
+	--color-text-muted: #5A677B;
+	--color-border: #E3E8F0;
+	--color-border-subtle: #EDF1F7;
+
+	--color-header-bg: #FFFFFF;
+	--color-header-text: #112033;
+	--color-header-border: #E3E8F0;
+	--color-header-action-bg: #F1F4F9;
+	--color-header-action-text: #112033;
+	--color-header-action-border: #E3E8F0;
+
+	--color-nav-bar-bg: #F8F9FC;
+	--color-nav-link: #1A283C;
+	--color-mega-bg: #FFFFFF;
+
+	--color-announcement-bg: #EEF2F8;
+	--color-announcement-text: #112033;
+	--color-announcement-link: #825A14;
+	--color-announcement-border: rgba(201, 155, 74, 0.35);
+
+	--color-hero-bg: linear-gradient(135deg, #FFFFFF 0%, #F4F7FC 65%, #EAF0FA 100%);
+	--color-hero-title: #112033;
+	--color-hero-subtitle: #4B586E;
+	--color-hero-border: rgba(201, 155, 74, 0.35);
+
+	--color-card-bg: #FFFFFF;
+	--color-card-border: #E5EAF1;
+	--color-card-shadow: 0 4px 16px rgba(17, 32, 51, 0.05);
+	--color-card-shadow-hover: 0 12px 30px rgba(17, 32, 51, 0.09);
+
+	--color-feature-bg: linear-gradient(135deg, #FFFDF9 0%, #F4EFE4 100%);
+	--color-feature-title: #112033;
+	--color-feature-text: #4B586E;
+	--color-feature-accent: #825A14;
+	--color-feature-box-bg: #FFFFFF;
+	--color-feature-border: rgba(201, 155, 74, 0.45);
+
+	--color-input-bg: #F5F8FC;
+	--color-input-border: #DCE3ED;
+	--color-input-text: #162232;
+
+	--color-footer-bg: linear-gradient(180deg, #F1F5FA 0%, #E6ECF5 100%);
+	--color-footer-text: #1E293B;
+	--color-footer-heading: #112033;
+	--color-footer-link: #243247;
+	--color-footer-muted: #4B586E;
+	--color-footer-border: rgba(201, 155, 74, 0.35);
+	--color-footer-pill-bg: rgba(17, 32, 51, 0.06);
+	--color-footer-pill-text: #112033;
+	--color-footer-badge-bg: rgba(17, 32, 51, 0.06);
 
 	/* Semantic Status Colors */
 	--color-success: #16803C;
@@ -51,9 +114,107 @@ Tags: e-commerce, custom-background, custom-colors, custom-header, custom-logo, 
 	--radius-sm: 6px;
 	--radius-md: 10px;
 	--radius-lg: 16px;
-	--shadow-sm: 0 2px 8px rgba(20, 36, 58, 0.05);
-	--shadow-md: 0 8px 24px rgba(20, 36, 58, 0.08);
+	--shadow-sm: 0 2px 8px rgba(17, 32, 51, 0.05);
+	--shadow-md: 0 8px 24px rgba(17, 32, 51, 0.08);
 	--transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+ * 2. November 2026 Obsidian Noir (Dark Mode System)
+ * -------------------------------------------------------------------------- */
+html[data-theme="dark"],
+html.cet-dark-mode,
+body.cet-dark-mode,
+[data-theme="dark"],
+.cet-dark-mode {
+	color-scheme: dark;
+	--color-background: #09101A;
+	--color-surface: #101B2B;
+	--color-surface-subtle: #142236;
+	--color-surface-elevated: #17273F;
+
+	--color-primary: #F3F6FB;
+	--color-primary-light: #FFFFFF;
+	--color-primary-dark: #070D15;
+
+	--color-brand-navy: #0F1D30;
+	--color-brand-navy-light: #182C46;
+	--color-on-dark: #FFFFFF;
+	--color-on-accent: #09101A;
+
+	--color-success: #4ADE80;
+	--color-warning: #FBBF24;
+	--color-danger: #F87171;
+
+	--color-accent: #D8AE60;
+	--color-accent-hover: #E6C279;
+	--color-accent-soft: rgba(216, 174, 96, 0.18);
+
+	--color-secondary: #4D7DF2;
+	--color-secondary-hover: #6A94F8;
+
+	--color-text: #E4EBF5;
+	--color-text-muted: #93A2B7;
+	--color-border: #1E2E46;
+	--color-border-subtle: #16253C;
+
+	--color-header-bg: #0C1624;
+	--color-header-text: #F8F9FC;
+	--color-header-border: rgba(216, 174, 96, 0.35);
+	--color-header-action-bg: rgba(255, 255, 255, 0.08);
+	--color-header-action-text: #FFFFFF;
+	--color-header-action-border: rgba(216, 174, 96, 0.35);
+
+	--color-nav-bar-bg: #070E18;
+	--color-nav-link: #E2E8F0;
+	--color-mega-bg: #101B2B;
+
+	--color-announcement-bg: #05090F;
+	--color-announcement-text: #F8F9FC;
+	--color-announcement-link: #D8AE60;
+	--color-announcement-border: rgba(216, 174, 96, 0.35);
+
+	--color-hero-bg: linear-gradient(135deg, #121F33 0%, #0A1322 100%);
+	--color-hero-title: #FFFFFF;
+	--color-hero-subtitle: rgba(255, 255, 255, 0.88);
+	--color-hero-border: rgba(216, 174, 96, 0.5);
+
+	--color-card-bg: #101B2B;
+	--color-card-border: rgba(216, 174, 96, 0.18);
+	--color-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+	--color-card-shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(216, 174, 96, 0.15);
+
+	--color-feature-bg: linear-gradient(135deg, #162842 0%, #0B1524 100%);
+	--color-feature-title: #FFFFFF;
+	--color-feature-text: rgba(240, 244, 250, 0.86);
+	--color-feature-accent: #D8AE60;
+	--color-feature-box-bg: rgba(7, 13, 21, 0.85);
+	--color-feature-border: rgba(216, 174, 96, 0.45);
+
+	--color-input-bg: #0E1724;
+	--color-input-border: #22334D;
+	--color-input-text: #F3F6FB;
+
+	--color-footer-bg: linear-gradient(180deg, #09101A 0%, #04080D 100%);
+	--color-footer-text: #F0F4FA;
+	--color-footer-heading: #D8AE60;
+	--color-footer-link: rgba(240, 244, 250, 0.88);
+	--color-footer-muted: rgba(240, 244, 250, 0.78);
+	--color-footer-border: rgba(216, 174, 96, 0.28);
+	--color-footer-pill-bg: rgba(216, 174, 96, 0.14);
+	--color-footer-pill-text: #D8AE60;
+	--color-footer-badge-bg: rgba(255, 255, 255, 0.08);
+
+	--shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+	--shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Smooth Transition on Color Scheme Switching */
+html.cet-theme-transitioning,
+html.cet-theme-transitioning *,
+html.cet-theme-transitioning *::before,
+html.cet-theme-transitioning *::after {
+	transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 /* Base Reset & Accessibility Foundations */
@@ -106,7 +267,7 @@ img {
 }
 
 .screen-reader-text:focus {
-	background-color: var(--color-primary);
+	background-color: var(--color-brand-navy);
 	border-radius: var(--radius-sm);
 	box-shadow: var(--shadow-md);
 	clip: auto !important;

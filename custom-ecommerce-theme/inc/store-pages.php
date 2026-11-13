@@ -284,9 +284,9 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 	if ( empty( $items ) ) {
 		ob_start();
 		?>
-		<div class="cet-empty-state" style="text-align:center; padding:3rem 1.5rem; background:#FFFFFF; border:1px solid #E8EDF5; border-radius:var(--radius-md);">
-			<h3 style="margin-bottom:0.5rem;"><?php esc_html_e( 'Your Shopping Bag is Empty', 'custom-ecommerce-theme' ); ?></h3>
-			<p style="color:#5A6578; max-width:460px; margin:0 auto 1.5rem;">
+		<div class="cet-empty-state">
+			<h3><?php esc_html_e( 'Your Shopping Bag is Empty', 'custom-ecommerce-theme' ); ?></h3>
+			<p>
 				<?php esc_html_e( 'Add a timepiece, fragrance, leather piece, or jewelry item to your bag before checking out.', 'custom-ecommerce-theme' ); ?>
 			</p>
 			<a href="<?php echo esc_url( cet_get_store_page_url( 'shop' ) ); ?>" class="cet-btn cet-btn--gold">
@@ -319,7 +319,7 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 			<div class="cet-checkout-layout">
 				<!-- Column 1: Delivery & Shipping Address -->
 				<div class="<?php echo $is_page ? 'cet-checkout-main-panel' : ''; ?>">
-					<h3 style="font-size:1.1rem; margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid #E8EDF5;">
+					<h3 style="font-size:1.1rem; margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--color-border);">
 						<?php esc_html_e( '1. Delivery Destination & Courier', 'custom-ecommerce-theme' ); ?>
 					</h3>
 
@@ -363,7 +363,7 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 								<input type="radio" name="delivery_method" value="standard" checked>
 								<strong><?php esc_html_e( 'Insured Express Delivery (2–4 Business Days)', 'custom-ecommerce-theme' ); ?></strong>
 							</span>
-							<span style="font-weight:700; color:#16803C;">
+							<span style="font-weight:700; color:var(--color-success);">
 								<?php echo 0.0 === $shipping_cost ? esc_html__( 'FREE', 'custom-ecommerce-theme' ) : '$18.00'; ?>
 							</span>
 						</label>
@@ -373,11 +373,11 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 								<input type="radio" name="delivery_method" value="priority">
 								<strong><?php esc_html_e( 'White-Glove Next-Day Courier', 'custom-ecommerce-theme' ); ?></strong>
 							</span>
-							<span style="font-weight:700; color:#14243A;">+$25.00</span>
+							<span style="font-weight:700; color:var(--color-primary);">+$25.00</span>
 						</label>
 					</div>
 
-					<h3 style="font-size:1.1rem; margin-bottom:0.85rem; padding-bottom:0.5rem; border-bottom:1px solid #E8EDF5;">
+					<h3 style="font-size:1.1rem; margin-bottom:0.85rem; padding-bottom:0.5rem; border-bottom:1px solid var(--color-border);">
 						<?php esc_html_e( '2. Payment Method', 'custom-ecommerce-theme' ); ?>
 					</h3>
 
@@ -386,8 +386,8 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 							<span class="cet-radio-card__main">
 								<input type="radio" name="payment_method" value="Cash on Delivery (COD)" checked>
 								<span>
-									<strong style="display:block; color:#14243A;"><?php esc_html_e( 'Cash on Delivery (COD)', 'custom-ecommerce-theme' ); ?></strong>
-									<span style="font-size:0.78rem; color:#5A6578;"><?php esc_html_e( 'Pay securely in cash or card upon insured courier arrival.', 'custom-ecommerce-theme' ); ?></span>
+									<strong style="display:block; color:var(--color-primary);"><?php esc_html_e( 'Cash on Delivery (COD)', 'custom-ecommerce-theme' ); ?></strong>
+									<span style="font-size:0.78rem; color:var(--color-text-muted);"><?php esc_html_e( 'Pay securely in cash or card upon insured courier arrival.', 'custom-ecommerce-theme' ); ?></span>
 								</span>
 							</span>
 						</label>
@@ -396,8 +396,8 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 							<span class="cet-radio-card__main">
 								<input type="radio" name="payment_method" value="Credit / Debit Card (Visa / Mastercard / Amex)">
 								<span>
-									<strong style="display:block; color:#14243A;"><?php esc_html_e( 'Credit / Debit Card (Visa, Mastercard, Amex)', 'custom-ecommerce-theme' ); ?></strong>
-									<span style="font-size:0.78rem; color:#5A6578;"><?php esc_html_e( '256-Bit SSL Encrypted instant card authorization.', 'custom-ecommerce-theme' ); ?></span>
+									<strong style="display:block; color:var(--color-primary);"><?php esc_html_e( 'Credit / Debit Card (Visa, Mastercard, Amex)', 'custom-ecommerce-theme' ); ?></strong>
+									<span style="font-size:0.78rem; color:var(--color-text-muted);"><?php esc_html_e( '256-Bit SSL Encrypted instant card authorization.', 'custom-ecommerce-theme' ); ?></span>
 								</span>
 							</span>
 						</label>
@@ -406,8 +406,8 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 							<span class="cet-radio-card__main">
 								<input type="radio" name="payment_method" value="Direct Bank Wire / Apple Pay">
 								<span>
-									<strong style="display:block; color:#14243A;"><?php esc_html_e( 'Bank Transfer / Digital Wallet', 'custom-ecommerce-theme' ); ?></strong>
-									<span style="font-size:0.78rem; color:#5A6578;"><?php esc_html_e( 'Instant bank transfer or Apple Pay / PayPal.', 'custom-ecommerce-theme' ); ?></span>
+									<strong style="display:block; color:var(--color-primary);"><?php esc_html_e( 'Bank Transfer / Digital Wallet', 'custom-ecommerce-theme' ); ?></strong>
+									<span style="font-size:0.78rem; color:var(--color-text-muted);"><?php esc_html_e( 'Instant bank transfer or Apple Pay / PayPal.', 'custom-ecommerce-theme' ); ?></span>
 								</span>
 							</span>
 						</label>
@@ -417,7 +417,7 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 				<!-- Column 2: Order Summary -->
 				<div class="<?php echo $is_page ? 'cet-checkout-summary-panel' : ''; ?>">
 					<div class="cet-order-summary-navy">
-						<h4 style="color:#D6AD65 !important; margin:0 0 0.85rem; font-size:1rem;"><?php esc_html_e( 'Order Breakdown', 'custom-ecommerce-theme' ); ?></h4>
+						<h4 style="color:var(--color-feature-accent) !important; margin:0 0 0.85rem; font-size:1rem;"><?php esc_html_e( 'Order Breakdown', 'custom-ecommerce-theme' ); ?></h4>
 						<?php foreach ( $items as $it ) : ?>
 							<div class="cet-order-summary-row">
 								<span><?php echo esc_html( $it['title'] . ' × ' . $it['qty'] ); ?></span>
@@ -427,14 +427,14 @@ function cet_render_checkout_portal_markup( bool $is_page = false ): string {
 
 						<div class="cet-order-summary-row" style="border-top:1px solid rgba(214,173,101,0.3); margin-top:0.75rem; padding-top:0.75rem;">
 							<span><?php esc_html_e( 'Delivery:', 'custom-ecommerce-theme' ); ?></span>
-							<span id="cet-checkout-delivery-display" style="color:#D6AD65; font-weight:700;">
+							<span id="cet-checkout-delivery-display" style="color:var(--color-feature-accent); font-weight:700;">
 								<?php echo 0.0 === $shipping_cost ? esc_html__( 'FREE Insured Express', 'custom-ecommerce-theme' ) : '$' . esc_html( number_format( $shipping_cost, 2 ) ); ?>
 							</span>
 						</div>
 
 						<div class="cet-order-summary-total">
 							<span><?php esc_html_e( 'Total Payable:', 'custom-ecommerce-theme' ); ?></span>
-							<span id="cet-checkout-total-display" style="color:#D6AD65;">$<?php echo esc_html( number_format( $grand_total, 2 ) ); ?></span>
+							<span id="cet-checkout-total-display" style="color:var(--color-feature-accent);">$<?php echo esc_html( number_format( $grand_total, 2 ) ); ?></span>
 						</div>
 
 						<div style="margin-top:1.25rem;">
@@ -472,9 +472,9 @@ function cet_render_cart_page_html( ?array $bag_override = null ): string {
 		<?php echo cet_render_shipping_goal_markup( $summary ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 		<?php if ( empty( $items ) ) : ?>
-			<div class="cet-empty-state" style="text-align:center; padding:3.5rem 1.5rem; background:#FFFFFF; border:1px solid #E8EDF5; border-radius:var(--radius-md);">
+			<div class="cet-empty-state">
 				<h3><?php esc_html_e( 'Your Shopping Bag is Empty', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="color:#5A6578; max-width:480px; margin:0 auto 1.5rem;">
+				<p>
 					<?php esc_html_e( 'Discover timeless luxury essentials in our curated boutique catalog.', 'custom-ecommerce-theme' ); ?>
 				</p>
 				<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--gold">
@@ -496,11 +496,11 @@ function cet_render_cart_page_html( ?array $bag_override = null ): string {
 								</div>
 
 								<div class="cet-cart-page-item__info">
-									<div style="font-size:0.72rem; font-weight:700; color:#C4974C; text-transform:uppercase;">
+									<div style="font-size:0.72rem; font-weight:700; color:var(--color-accent); text-transform:uppercase;">
 										<?php echo esc_html( $item['category'] ?: __( 'Signature Edition', 'custom-ecommerce-theme' ) ); ?>
 									</div>
-									<h3 style="margin:0.15rem 0 0.35rem; font-size:1.05rem; color:#14243A;"><?php echo esc_html( $item['title'] ); ?></h3>
-									<div style="font-size:0.84rem; color:#5A6578;">
+									<h3 style="margin:0.15rem 0 0.35rem; font-size:1.05rem; color:var(--color-primary);"><?php echo esc_html( $item['title'] ); ?></h3>
+									<div style="font-size:0.84rem; color:var(--color-text-muted);">
 										<?php esc_html_e( 'SKU:', 'custom-ecommerce-theme' ); ?> <?php echo esc_html( $item['sku'] ); ?> &bull;
 										$<?php echo esc_html( number_format( (float) $item['price'], 2 ) ); ?> <?php esc_html_e( 'each', 'custom-ecommerce-theme' ); ?>
 									</div>
@@ -513,7 +513,7 @@ function cet_render_cart_page_html( ?array $bag_override = null ): string {
 										<button type="button" class="cet-bag-qty-btn" data-product-id="<?php echo esc_attr( (string) $item['id'] ); ?>" data-delta="1">+</button>
 									</div>
 
-									<strong style="font-size:1.05rem; color:#14243A;">
+									<strong style="font-size:1.05rem; color:var(--color-primary);">
 										$<?php echo esc_html( number_format( (float) $item['line_total'], 2 ) ); ?>
 									</strong>
 
@@ -525,7 +525,7 @@ function cet_render_cart_page_html( ?array $bag_override = null ): string {
 						<?php endforeach; ?>
 					</div>
 
-					<div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:0.85rem; margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid #E8EDF5;">
+					<div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:0.85rem; margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--color-border);">
 						<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--outline cet-btn--sm">
 							<?php esc_html_e( 'Continue Shopping', 'custom-ecommerce-theme' ); ?>
 						</a>
@@ -536,23 +536,23 @@ function cet_render_cart_page_html( ?array $bag_override = null ): string {
 				</div>
 
 				<aside class="cet-cart-summary-panel">
-					<h3 style="margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:1px solid #E8EDF5;">
+					<h3 style="margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:1px solid var(--color-border);">
 						<?php esc_html_e( 'Bag Summary', 'custom-ecommerce-theme' ); ?>
 					</h3>
 
 					<div style="display:flex; justify-content:space-between; margin-bottom:0.75rem; font-size:0.94rem;">
-						<span style="color:#5A6578;"><?php esc_html_e( 'Subtotal', 'custom-ecommerce-theme' ); ?></span>
-						<strong style="color:#14243A;">$<?php echo esc_html( number_format( $subtotal, 2 ) ); ?></strong>
+						<span style="color:var(--color-text-muted);"><?php esc_html_e( 'Subtotal', 'custom-ecommerce-theme' ); ?></span>
+						<strong style="color:var(--color-primary);">$<?php echo esc_html( number_format( $subtotal, 2 ) ); ?></strong>
 					</div>
 
 					<div style="display:flex; justify-content:space-between; margin-bottom:0.75rem; font-size:0.94rem;">
-						<span style="color:#5A6578;"><?php esc_html_e( 'Estimated Insured Delivery', 'custom-ecommerce-theme' ); ?></span>
-						<strong style="color:#16803C;">
+						<span style="color:var(--color-text-muted);"><?php esc_html_e( 'Estimated Insured Delivery', 'custom-ecommerce-theme' ); ?></span>
+						<strong style="color:var(--color-success);">
 							<?php echo 0.0 === $shipping_cost ? esc_html__( 'FREE', 'custom-ecommerce-theme' ) : '$' . esc_html( number_format( $shipping_cost, 2 ) ); ?>
 						</strong>
 					</div>
 
-					<div style="display:flex; justify-content:space-between; padding-top:1rem; margin:1rem 0 1.35rem; border-top:2px solid #E8EDF5; font-size:1.2rem; font-weight:800; color:#14243A;">
+					<div style="display:flex; justify-content:space-between; padding-top:1rem; margin:1rem 0 1.35rem; border-top:2px solid var(--color-border); font-size:1.2rem; font-weight:800; color:var(--color-primary);">
 						<span><?php esc_html_e( 'Estimated Total', 'custom-ecommerce-theme' ); ?></span>
 						<span>$<?php echo esc_html( number_format( $grand_total, 2 ) ); ?></span>
 					</div>
@@ -582,7 +582,35 @@ function cet_shop_shortcode(): string {
 	$search_q    = isset( $_GET['cet_q'] ) ? sanitize_text_field( wp_unslash( $_GET['cet_q'] ) ) : '';
 	$page_id_val = isset( $_GET['page_id'] ) ? absint( $_GET['page_id'] ) : 0;
 
-	// If WooCommerce products exist, render WC products first.
+	// Build dynamic product categories from taxonomy product_cat when available.
+	$categories = array();
+	if ( taxonomy_exists( 'product_cat' ) ) {
+		$terms = get_terms(
+			array(
+				'taxonomy'   => 'product_cat',
+				'hide_empty' => true,
+			)
+		);
+		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$categories[] = array(
+					'name' => $term->name,
+					'slug' => $term->slug,
+				);
+			}
+		}
+	}
+	if ( empty( $categories ) && function_exists( 'cet_get_showcase_categories' ) ) {
+		$showcase_cats = cet_get_showcase_categories();
+		foreach ( $showcase_cats as $sc ) {
+			$categories[] = array(
+				'name' => (string) $sc['name'],
+				'slug' => sanitize_title( (string) $sc['name'] ),
+			);
+		}
+	}
+
+	// If WooCommerce products exist, render live WooCommerce products with full toolbar & category pills.
 	if ( class_exists( 'WooCommerce' ) && function_exists( 'wc_get_products' ) ) {
 		$wc_check = wc_get_products(
 			array(
@@ -593,10 +621,13 @@ function cet_shop_shortcode(): string {
 		if ( ! empty( $wc_check ) ) {
 			$args = array(
 				'status' => 'publish',
-				'limit'  => 24,
+				'limit'  => 48,
 			);
 			if ( $active_cat ) {
 				$args['category'] = array( $active_cat );
+			}
+			if ( $search_q ) {
+				$args['s'] = $search_q;
 			}
 			if ( 'price_asc' === $active_sort ) {
 				$args['orderby'] = 'price';
@@ -604,20 +635,95 @@ function cet_shop_shortcode(): string {
 			} elseif ( 'price_desc' === $active_sort ) {
 				$args['orderby'] = 'price';
 				$args['order']   = 'DESC';
+			} elseif ( 'rated' === $active_sort ) {
+				$args['orderby'] = 'rating';
+				$args['order']   = 'DESC';
+			} else {
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
 			}
 			$wc_prods = wc_get_products( $args );
 
 			ob_start();
 			?>
 			<div class="cet-shop-page-wrap">
-				<div class="cet-products-grid">
-					<?php
-					foreach ( $wc_prods as $prod ) {
-						set_query_var( 'cet_card_product', $prod );
-						get_template_part( 'template-parts/product/product-card' );
-					}
-					?>
-				</div>
+				<!-- Category Filter Pills -->
+				<?php if ( ! empty( $categories ) ) : ?>
+					<div class="cet-shop-cat-pills">
+						<a href="<?php echo esc_url( remove_query_arg( 'cet_cat', $shop_url ) ); ?>" class="cet-btn cet-btn--sm <?php echo '' === $active_cat ? 'cet-btn--primary' : 'cet-btn--outline'; ?>">
+							<?php esc_html_e( 'All Departments', 'custom-ecommerce-theme' ); ?>
+						</a>
+						<?php foreach ( $categories as $cat ) : ?>
+							<?php
+							$slug     = sanitize_title( (string) $cat['slug'] );
+							$cat_link = add_query_arg( 'cet_cat', $slug, $shop_url );
+							?>
+							<a href="<?php echo esc_url( $cat_link ); ?>" class="cet-btn cet-btn--sm <?php echo $active_cat === $slug ? 'cet-btn--primary' : 'cet-btn--outline'; ?>">
+								<?php echo esc_html( (string) $cat['name'] ); ?>
+							</a>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+
+				<!-- Toolbar: Filter Count, Search & Sort -->
+				<form method="get" action="<?php echo esc_url( $shop_url ); ?>" class="cet-shop-toolbar">
+					<?php if ( $page_id_val > 0 ) : ?>
+						<input type="hidden" name="page_id" value="<?php echo esc_attr( (string) $page_id_val ); ?>">
+					<?php endif; ?>
+					<?php if ( $active_cat ) : ?>
+						<input type="hidden" name="cet_cat" value="<?php echo esc_attr( $active_cat ); ?>">
+					<?php endif; ?>
+
+					<div class="cet-shop-toolbar__left">
+						<span class="woocommerce-result-count">
+							<?php
+							printf(
+								/* translators: %d: number of matching products */
+								esc_html( _n( 'Showing %d product', 'Showing %d products', count( $wc_prods ), 'custom-ecommerce-theme' ) ),
+								count( $wc_prods )
+							);
+							?>
+						</span>
+					</div>
+
+					<div class="cet-shop-toolbar__right" style="flex:1; justify-content:flex-end;">
+						<input
+							type="search"
+							name="cet_q"
+							value="<?php echo esc_attr( $search_q ); ?>"
+							placeholder="<?php esc_attr_e( 'Filter by name or SKU...', 'custom-ecommerce-theme' ); ?>"
+							style="max-width:230px;"
+						>
+						<select name="cet_sort" onchange="this.form.submit();" aria-label="<?php esc_attr_e( 'Sort Products', 'custom-ecommerce-theme' ); ?>" style="max-width:210px;">
+							<option value="featured" <?php selected( $active_sort, 'featured' ); ?>><?php esc_html_e( 'Sort: Newest First', 'custom-ecommerce-theme' ); ?></option>
+							<option value="price_asc" <?php selected( $active_sort, 'price_asc' ); ?>><?php esc_html_e( 'Price: Low to High', 'custom-ecommerce-theme' ); ?></option>
+							<option value="price_desc" <?php selected( $active_sort, 'price_desc' ); ?>><?php esc_html_e( 'Price: High to Low', 'custom-ecommerce-theme' ); ?></option>
+							<option value="rated" <?php selected( $active_sort, 'rated' ); ?>><?php esc_html_e( 'Top Rated', 'custom-ecommerce-theme' ); ?></option>
+						</select>
+						<button type="submit" class="cet-btn cet-btn--gold cet-btn--sm">
+							<?php esc_html_e( 'Filter', 'custom-ecommerce-theme' ); ?>
+						</button>
+					</div>
+				</form>
+
+				<?php if ( empty( $wc_prods ) ) : ?>
+					<div class="cet-empty-state">
+						<h3><?php esc_html_e( 'No Matching Products Found', 'custom-ecommerce-theme' ); ?></h3>
+						<p><?php esc_html_e( 'Try clearing your filter or searching for a different term.', 'custom-ecommerce-theme' ); ?></p>
+						<a href="<?php echo esc_url( remove_query_arg( array( 'cet_cat', 'cet_q', 'cet_sort' ), $shop_url ) ); ?>" class="cet-btn cet-btn--gold">
+							<?php esc_html_e( 'Show All Products', 'custom-ecommerce-theme' ); ?>
+						</a>
+					</div>
+				<?php else : ?>
+					<div class="cet-products-grid">
+						<?php
+						foreach ( $wc_prods as $prod ) {
+							set_query_var( 'cet_card_product', $prod );
+							get_template_part( 'template-parts/product/product-card' );
+						}
+						?>
+					</div>
+				<?php endif; ?>
 			</div>
 			<?php
 			return (string) ob_get_clean();
@@ -711,9 +817,9 @@ function cet_shop_shortcode(): string {
 		</form>
 
 		<?php if ( empty( $filtered ) ) : ?>
-			<div class="cet-empty-state" style="text-align:center; padding:3rem 1.5rem; background:#FFFFFF; border:1px solid #E8EDF5; border-radius:var(--radius-md);">
+			<div class="cet-empty-state">
 				<h3><?php esc_html_e( 'No Matching Products Found', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="color:#5A6578; margin-bottom:1.25rem;"><?php esc_html_e( 'Try clearing your filter or browsing all signature pieces.', 'custom-ecommerce-theme' ); ?></p>
+				<p><?php esc_html_e( 'Try clearing your filter or browsing all signature pieces.', 'custom-ecommerce-theme' ); ?></p>
 				<a href="<?php echo esc_url( $shop_url ); ?>" class="cet-btn cet-btn--gold">
 					<?php esc_html_e( 'Show All Products', 'custom-ecommerce-theme' ); ?>
 				</a>
@@ -800,10 +906,10 @@ function cet_track_order_shortcode(): string {
 	ob_start();
 	?>
 	<div class="cet-track-order-wrap">
-		<div class="cet-card" style="padding:1.75rem; max-width:720px; margin:0 auto 2rem; border-top:3px solid #D6AD65;">
+		<div class="cet-card" style="padding:1.75rem; max-width:720px; margin:0 auto 2rem; border-top:3px solid var(--color-accent);">
 			<span class="cet-eyebrow"><?php esc_html_e( 'Concierge Logistics', 'custom-ecommerce-theme' ); ?></span>
 			<h2 style="margin-bottom:0.5rem;"><?php esc_html_e( 'Track Your Delivery & Order Status', 'custom-ecommerce-theme' ); ?></h2>
-			<p style="color:#5A6578; margin-bottom:1.25rem;">
+			<p style="color:var(--color-text-muted); margin-bottom:1.25rem;">
 				<?php esc_html_e( 'Enter your Order Reference (for example CET-2026-1234) to inspect fulfillment milestones and courier arrival ETA.', 'custom-ecommerce-theme' ); ?>
 			</p>
 
@@ -831,8 +937,8 @@ function cet_track_order_shortcode(): string {
 
 		<?php if ( '' !== $lookup_ref ) : ?>
 			<?php if ( $found_order ) : ?>
-				<div class="cet-card" style="padding:1.75rem; max-width:720px; margin:0 auto 2rem; border:1px solid #D6AD65;">
-					<div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.75rem; margin-bottom:1.25rem; padding-bottom:1rem; border-bottom:1px solid #E8EDF5;">
+				<div class="cet-card" style="padding:1.75rem; max-width:720px; margin:0 auto 2rem; border:1px solid var(--color-accent);">
+					<div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.75rem; margin-bottom:1.25rem; padding-bottom:1rem; border-bottom:1px solid var(--color-border);">
 						<div>
 							<span class="cet-eyebrow"><?php esc_html_e( 'Shipment Found', 'custom-ecommerce-theme' ); ?></span>
 							<h3 style="margin:0;">#<?php echo esc_html( (string) $found_order['order_number'] ); ?></h3>
@@ -847,7 +953,7 @@ function cet_track_order_shortcode(): string {
 						</div>
 						<div>
 							<strong><?php esc_html_e( 'Estimated Delivery:', 'custom-ecommerce-theme' ); ?></strong>
-							<div style="color:#16803C; font-weight:700;"><?php echo esc_html( (string) ( $found_order['eta'] ?? '' ) ); ?></div>
+							<div style="color:var(--color-success); font-weight:700;"><?php echo esc_html( (string) ( $found_order['eta'] ?? '' ) ); ?></div>
 						</div>
 						<div>
 							<strong><?php esc_html_e( 'Payment Method:', 'custom-ecommerce-theme' ); ?></strong>
@@ -855,7 +961,7 @@ function cet_track_order_shortcode(): string {
 						</div>
 						<div>
 							<strong><?php esc_html_e( 'Order Total:', 'custom-ecommerce-theme' ); ?></strong>
-							<div style="font-weight:800; color:#14243A;">$<?php echo esc_html( number_format( (float) ( $found_order['total'] ?? 0 ), 2 ) ); ?></div>
+							<div style="font-weight:800; color:var(--color-primary);">$<?php echo esc_html( number_format( (float) ( $found_order['total'] ?? 0 ), 2 ) ); ?></div>
 						</div>
 					</div>
 				</div>
@@ -870,9 +976,9 @@ function cet_track_order_shortcode(): string {
 			<div style="max-width:860px; margin:0 auto;">
 				<h3 style="margin-bottom:0.9rem;"><?php esc_html_e( 'Your Recent Storefront Orders', 'custom-ecommerce-theme' ); ?></h3>
 				<div class="cet-table-scroll">
-					<table class="shop_table" style="width:100%; border-collapse:collapse; font-size:0.86rem; background:#FFFFFF;">
+					<table class="shop_table" style="width:100%; border-collapse:collapse; font-size:0.86rem;">
 						<thead>
-							<tr style="background:#14243A; color:#FFFFFF;">
+							<tr>
 								<th style="padding:0.75rem 1rem; text-align:left;"><?php esc_html_e( 'Order #', 'custom-ecommerce-theme' ); ?></th>
 								<th style="padding:0.75rem 1rem; text-align:left;"><?php esc_html_e( 'Delivery ETA', 'custom-ecommerce-theme' ); ?></th>
 								<th style="padding:0.75rem 1rem; text-align:left;"><?php esc_html_e( 'Payment', 'custom-ecommerce-theme' ); ?></th>
@@ -882,7 +988,7 @@ function cet_track_order_shortcode(): string {
 						</thead>
 						<tbody>
 							<?php foreach ( $recent_orders as $ord ) : ?>
-								<tr style="border-bottom:1px solid #E8EDF5;">
+								<tr>
 									<td style="padding:0.8rem 1rem; font-weight:700;">
 										<a href="<?php echo esc_url( add_query_arg( 'order_ref', (string) ( $ord['order_number'] ?? '' ), $track_url ) ); ?>">
 											#<?php echo esc_html( (string) ( $ord['order_number'] ?? '' ) ); ?>

@@ -5,7 +5,7 @@ Description: Official child theme for Custom E-Commerce Theme. Use this child th
 Author: Aaqib Mustafa
 Author URI: https://aaqibmustafa.github.io/
 Template: custom-ecommerce-theme
-Version: 1.1.0
+Version: 1.4.1
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.2
@@ -17,29 +17,26 @@ Text Domain: custom-ecommerce-child
 Domain Path: /languages
 */
 
-:root {
-	--color-primary: #14243A;
-	--color-primary-light: #1E3454;
-	--color-primary-dark: #0C1726;
-	--color-accent: #D6AD65;
-	--color-accent-hover: #C4974C;
-	--color-accent-soft: rgba(214, 173, 101, 0.16);
-	--color-secondary: #356AE6;
-	--color-secondary-hover: #2554C7;
-	--color-background: #F5F7FA;
-	--color-surface: #FFFFFF;
-	--color-text: #202938;
-	--color-text-muted: #5A6578;
-	--color-border: #E8EDF5;
+/* 
+ * Child theme inherits all November 2026 luxury design tokens and 
+ * light/dark mode dual-theme system from the parent theme.
+ * Add custom overrides below.
+ */
+
+.cet-header .cet-brand-link {
+	color: var(--color-header-text) !important;
 }
 
-/* Ensure crisp visibility for Header & Footer brand identity and author credit in Child Theme */
-.cet-header .cet-brand-link,
-.cet-footer a.cet-footer__brand-title,
-.cet-footer .cet-footer__site-link {
+[data-theme="dark"] .cet-header .cet-brand-link,
+.cet-dark-mode .cet-header .cet-brand-link {
 	color: #FFFFFF !important;
 }
 
+.cet-footer a.cet-footer__brand-title,
+.cet-footer .cet-footer__site-link {
+	color: var(--color-hero-title) !important;
+}
+
 .cet-footer a.cet-author-credit-badge {
-	color: #D6AD65 !important;
+	color: var(--color-footer-pill-text) !important;
 }

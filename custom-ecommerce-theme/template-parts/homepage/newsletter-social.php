@@ -46,7 +46,7 @@ if ( ! $show_newsletter && ! $show_social ) {
 							<?php esc_html_e( 'Subscribe', 'custom-ecommerce-theme' ); ?>
 						</button>
 					</form>
-					<p id="cet-newsletter-feedback" style="margin:0.6rem 0 0; font-size:0.82rem; color:var(--color-accent);" aria-live="polite"></p>
+					<p id="cet-newsletter-feedback" style="margin:0.6rem 0 0; font-size:0.82rem; color:var(--color-feature-accent);" aria-live="polite"></p>
 				</div>
 			</div>
 		<?php endif; ?>

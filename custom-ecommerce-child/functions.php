@@ -7,7 +7,7 @@
  *
  * @package Custom_Ecommerce_Child
  * @author  Aaqib Mustafa
- * @version 1.1.0
+ * @version 1.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,7 +34,7 @@ add_action( 'after_setup_theme', 'cet_child_setup', 20 );
  */
 function cet_child_enqueue_styles(): void {
 	$child_style_path = get_stylesheet_directory() . '/style.css';
-	$child_version    = file_exists( $child_style_path ) ? (string) filemtime( $child_style_path ) : '1.1.0';
+	$child_version    = file_exists( $child_style_path ) ? (string) filemtime( $child_style_path ) : '1.4.1';
 
 	$deps = array( 'cet-style' );
 	foreach ( array( 'cet-main', 'cet-components', 'cet-header', 'cet-footer', 'cet-woocommerce', 'cet-responsive' ) as $handle ) {

@@ -18,15 +18,21 @@ if ( ! cet_get_option( 'enable_mega_menu', true ) ) {
 
 $product_categories = array();
 if ( taxonomy_exists( 'product_cat' ) ) {
-	$terms = get_terms(
-		array(
-			'taxonomy'   => 'product_cat',
-			'hide_empty' => false,
-			'parent'     => 0,
-			'number'     => 6,
-			'exclude'    => array( (int) get_option( 'default_product_cat', 0 ) ),
-		)
+	$term_args = array(
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => false,
+		'number'     => 8,
 	);
+
+	$default_cat_id = (int) get_option( 'default_product_cat', 0 );
+	if ( $default_cat_id > 0 ) {
+		$def_term = get_term( $default_cat_id, 'product_cat' );
+		if ( $def_term && ! is_wp_error( $def_term ) && 'uncategorized' === $def_term->slug && 0 === (int) $def_term->count ) {
+			$term_args['exclude'] = array( $default_cat_id );
+		}
+	}
+
+	$terms = get_terms( $term_args );
 	if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 		$product_categories = $terms;
 	}
