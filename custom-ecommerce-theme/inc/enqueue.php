@@ -112,6 +112,7 @@ function cet_enqueue_assets(): void {
 			'wishlistIds'          => function_exists( 'cet_get_wishlist_ids' ) ? cet_get_wishlist_ids() : array(),
 			'compareIds'           => function_exists( 'cet_get_compare_ids' ) ? cet_get_compare_ids() : array(),
 			'bagCount'             => function_exists( 'cet_get_bag_total_count' ) ? cet_get_bag_total_count() : 0,
+			'defaultColorMode'     => sanitize_key( (string) cet_get_option( 'default_color_mode', 'light' ) ),
 			'i18n'                 => array(
 				'addedWishlist'   => esc_html__( 'Added to Wishlist', 'custom-ecommerce-theme' ),
 				'removedWishlist' => esc_html__( 'Removed from Wishlist', 'custom-ecommerce-theme' ),
