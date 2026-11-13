@@ -31,7 +31,7 @@ $shop_url    = function_exists( 'cet_get_store_page_url' ) ? cet_get_store_page_
 					<?php esc_html_e( 'Unlock privileged tier pricing on select seasonal pieces before the timer concludes.', 'custom-ecommerce-theme' ); ?>
 					<?php if ( $coupon_code ) : ?>
 						<?php esc_html_e( 'Apply code at checkout:', 'custom-ecommerce-theme' ); ?>
-						<strong style="color:var(--color-accent); border:1px dashed var(--color-accent); padding:0.15rem 0.55rem; border-radius:4px; margin-left:0.35rem;">
+						<strong style="color:var(--color-feature-accent); border:1px dashed var(--color-feature-border); padding:0.15rem 0.55rem; border-radius:4px; margin-left:0.35rem;">
 							<?php echo esc_html( $coupon_code ); ?>
 						</strong>
 					<?php endif; ?>
