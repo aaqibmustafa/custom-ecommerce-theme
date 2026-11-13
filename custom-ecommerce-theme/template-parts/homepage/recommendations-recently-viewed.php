@@ -25,6 +25,17 @@ if ( function_exists( 'wc_get_products' ) ) {
 		)
 	);
 
+	if ( empty( $recommended_products ) ) {
+		$recommended_products = wc_get_products(
+			array(
+				'status'  => 'publish',
+				'limit'   => 4,
+				'orderby' => 'date',
+				'order'   => 'DESC',
+			)
+		);
+	}
+
 	$recent_ids = function_exists( 'cet_get_recently_viewed_ids' ) ? array_slice( cet_get_recently_viewed_ids(), 0, 4 ) : array();
 	foreach ( $recent_ids as $r_id ) {
 		$r_prod = wc_get_product( $r_id );
