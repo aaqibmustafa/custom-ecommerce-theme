@@ -132,8 +132,8 @@
 	},
 	"styles": {
 		"color": {
-			"background": "#F5F7FA",
-			"text": "#202938"
+			"background": "var(--color-background)",
+			"text": "var(--color-text)"
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--primary)",
@@ -143,8 +143,8 @@
 		"elements": {
 			"button": {
 				"color": {
-					"background": "#14243A",
-					"text": "#D6AD65"
+					"background": "var(--color-brand-navy)",
+					"text": "var(--color-accent)"
 				},
 				"border": {
 					"radius": "6px"
