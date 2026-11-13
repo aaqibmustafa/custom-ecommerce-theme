@@ -16,12 +16,12 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 
 <main id="primary" class="site-main cet-main">
 	<div class="cet-container">
-		<section class="error-404 not-found" style="background:linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); color:var(--color-surface); border:1px solid var(--color-accent); border-radius:var(--radius-lg); padding:clamp(2.5rem, 6vw, 5rem); text-align:center;">
+		<section class="error-404 not-found" style="background:var(--color-feature-bg); color:var(--color-feature-title); border:1px solid var(--color-feature-border); border-radius:var(--radius-lg); padding:clamp(2.5rem, 6vw, 5rem); text-align:center;">
 			<span class="cet-eyebrow"><?php esc_html_e( 'Error 404 — Page Not Found', 'custom-ecommerce-theme' ); ?></span>
-			<h1 class="page-title" style="color:var(--color-surface); font-size:clamp(2.25rem, 4.5vw, 3.75rem); margin-bottom:1rem;">
+			<h1 class="page-title" style="color:var(--color-feature-title); font-size:clamp(2.25rem, 4.5vw, 3.75rem); margin-bottom:1rem;">
 				<?php esc_html_e( 'This Destination Could Not Be Located', 'custom-ecommerce-theme' ); ?>
 			</h1>
-			<p style="max-width:540px; margin:0 auto 2rem; color:rgba(245,247,250,0.85);">
+			<p style="max-width:540px; margin:0 auto 2rem; color:var(--color-feature-text);">
 				<?php esc_html_e( 'The page or piece you are looking for may have been archived, moved, or sold out. Explore our collections or search below.', 'custom-ecommerce-theme' ); ?>
 			</p>
 
