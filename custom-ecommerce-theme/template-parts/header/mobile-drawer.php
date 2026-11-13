@@ -22,6 +22,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 	<div class="cet-mobile-drawer__body">
+		<div class="cet-mobile-theme-switch-wrap">
+			<span class="cet-mobile-theme-switch-label"><?php esc_html_e( 'Appearance', 'custom-ecommerce-theme' ); ?></span>
+			<button
+				type="button"
+				class="cet-theme-toggle-btn cet-mobile-theme-toggle-btn"
+				aria-label="<?php esc_attr_e( 'Toggle Color Mode (Light / Dark)', 'custom-ecommerce-theme' ); ?>"
+			>
+				<span class="cet-theme-toggle__icon cet-theme-toggle__icon--moon" aria-hidden="true">
+					<?php echo cet_get_svg_icon( 'moon', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</span>
+				<span class="cet-theme-toggle__icon cet-theme-toggle__icon--sun" aria-hidden="true">
+					<?php echo cet_get_svg_icon( 'sun', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</span>
+				<span class="cet-theme-mode-text"><?php esc_html_e( 'Light Mode', 'custom-ecommerce-theme' ); ?></span>
+			</button>
+		</div>
+
 		<?php get_search_form(); ?>
 
 		<nav aria-label="<?php esc_attr_e( 'Mobile Menu', 'custom-ecommerce-theme' ); ?>">
