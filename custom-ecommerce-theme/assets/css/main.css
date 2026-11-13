@@ -10,40 +10,12 @@
  * - Border (Soft Slate):       #E8EDF5
  */
 
-:root {
-	--color-primary: #14243A;
-	--color-primary-light: #1E3454;
-	--color-primary-dark: #0C1726;
-	--color-accent: #D6AD65;
-	--color-accent-hover: #C4974C;
-	--color-accent-soft: rgba(214, 173, 101, 0.16);
-	--color-secondary: #356AE6;
-	--color-secondary-hover: #2554C7;
-	--color-background: #F5F7FA;
-	--color-surface: #FFFFFF;
-	--color-text: #202938;
-	--color-text-muted: #5A6578;
-	--color-border: #E8EDF5;
-	--color-success: #16803C;
-	--color-warning: #D97706;
-	--color-danger: #DC2626;
-	--container-max-width: 1280px;
-	--container-wide-width: 1440px;
-	--header-height: 80px;
-	--font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-	--font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
-	--radius-sm: 6px;
-	--radius-md: 12px;
-	--radius-lg: 18px;
-	--shadow-sm: 0 4px 14px rgba(20, 36, 58, 0.06);
-	--shadow-md: 0 12px 32px rgba(20, 36, 58, 0.11);
-	--transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Theme tokens are defined in style.css (Haute Light & Obsidian Noir Dark Mode) */
 
 /* Typography Scale */
 h1, h2, h3, h4, h5, h6 {
 	font-family: var(--font-heading);
-	color: #14243A;
+	color: var(--color-primary);
 	margin-top: 0;
 	margin-bottom: 0.75rem;
 	line-height: 1.22;
@@ -98,19 +70,32 @@ main.cet-front-page {
 
 /* Section Spacing & Backgrounds */
 .cet-section {
-	padding-top: 4.5rem;
-	padding-bottom: 4.5rem;
+	padding-top: clamp(3.5rem, 5.5vw, 5rem);
+	padding-bottom: clamp(3.5rem, 5.5vw, 5rem);
 	position: relative;
+	scroll-margin-top: calc(var(--header-height, 80px) + 40px);
+}
+
+.admin-bar .cet-section {
+	scroll-margin-top: calc(var(--header-height, 80px) + 76px);
+}
+
+[id] {
+	scroll-margin-top: calc(var(--header-height, 80px) + 40px);
+}
+
+.admin-bar [id] {
+	scroll-margin-top: calc(var(--header-height, 80px) + 76px);
 }
 
 .cet-section--surface {
-	background-color: #FFFFFF;
-	border-top: 1px solid #E8EDF5;
-	border-bottom: 1px solid #E8EDF5;
+	background-color: var(--color-surface);
+	border-top: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--color-border);
 }
 
 .cet-section--navy {
-	background-color: #14243A;
+	background-color: var(--color-primary-dark);
 	color: #FFFFFF;
 }
 
@@ -129,7 +114,7 @@ main.cet-front-page {
 	gap: 1.25rem;
 	margin-bottom: 2.5rem;
 	padding-bottom: 1rem;
-	border-bottom: 1px solid #E8EDF5;
+	border-bottom: 1px solid var(--color-border);
 	position: relative;
 }
 
@@ -140,7 +125,7 @@ main.cet-front-page {
 	left: 0;
 	width: 76px;
 	height: 3px;
-	background-color: #D6AD65;
+	background-color: var(--color-accent);
 }
 
 .cet-section-header--center {
@@ -163,7 +148,7 @@ main.cet-front-page {
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.14em;
-	color: #C4974C;
+	color: var(--color-feature-accent);
 	margin-bottom: 0.5rem;
 }
 
@@ -173,16 +158,16 @@ main.cet-front-page {
 .cet-newsletter-box .cet-eyebrow,
 .cet-shop-header .cet-eyebrow,
 .cet-mega-spotlight .cet-eyebrow {
-	color: #D6AD65 !important;
+	color: var(--color-feature-accent) !important;
 }
 
 .cet-section-title {
 	margin-bottom: 0.35rem;
-	color: #14243A;
+	color: var(--color-primary);
 }
 
 .cet-section-subtitle {
-	color: #5A6578;
+	color: var(--color-text-muted);
 	font-size: 0.975rem;
 	margin-bottom: 0;
 	max-width: 640px;
@@ -238,8 +223,8 @@ main.cet-front-page {
 
 /* Breadcrumbs Bar */
 .cet-breadcrumbs-bar {
-	background-color: #FFFFFF;
-	border-bottom: 1px solid #E8EDF5;
+	background-color: var(--color-surface);
+	border-bottom: 1px solid var(--color-border);
 	padding: 0.85rem 0;
 	font-size: 0.84rem;
 }
@@ -252,7 +237,7 @@ main.cet-front-page {
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 0.45rem;
-	color: #5A6578;
+	color: var(--color-text-muted);
 }
 
 .cet-breadcrumb__item {
@@ -262,21 +247,21 @@ main.cet-front-page {
 }
 
 .cet-breadcrumb__item a {
-	color: #14243A;
+	color: var(--color-primary);
 	font-weight: 600;
 }
 
 .cet-breadcrumb__item a:hover {
-	color: #C4974C;
+	color: var(--color-accent);
 }
 
 .cet-breadcrumb__sep {
-	color: #D6AD65;
+	color: var(--color-accent);
 	font-weight: 700;
 }
 
 .cet-breadcrumb__current {
-	color: #5A6578;
+	color: var(--color-text-muted);
 }
 
 /* Sidebar Widgets */
@@ -287,8 +272,8 @@ main.cet-front-page {
 }
 
 .cet-widget {
-	background-color: #FFFFFF;
-	border: 1px solid #E8EDF5;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
 	padding: 1.5rem;
 	box-shadow: var(--shadow-sm);
@@ -300,9 +285,9 @@ main.cet-front-page {
 	margin-top: 0;
 	margin-bottom: 1.15rem;
 	padding-bottom: 0.65rem;
-	border-bottom: 1px solid #E8EDF5;
+	border-bottom: 1px solid var(--color-border);
 	position: relative;
-	color: #14243A;
+	color: var(--color-primary);
 }
 
 .cet-widget__title::after {
@@ -312,7 +297,7 @@ main.cet-front-page {
 	left: 0;
 	width: 38px;
 	height: 2px;
-	background-color: #D6AD65;
+	background-color: var(--color-accent);
 }
 
 .cet-widget ul {
@@ -323,7 +308,7 @@ main.cet-front-page {
 
 .cet-widget ul li {
 	padding: 0.45rem 0;
-	border-bottom: 1px dashed #E8EDF5;
+	border-bottom: 1px dashed var(--color-border);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -356,9 +341,9 @@ main.cet-front-page {
 	height: 42px;
 	padding: 0 0.9rem;
 	border-radius: var(--radius-sm);
-	background-color: #FFFFFF;
-	border: 1px solid #E8EDF5;
-	color: #14243A;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	color: var(--color-primary);
 	font-weight: 600;
 	font-size: 0.9rem;
 	transition: all var(--transition-base);
@@ -368,7 +353,20 @@ main.cet-front-page {
 .navigation.pagination .page-numbers:hover,
 .woocommerce-pagination ul.page-numbers li .page-numbers.current,
 .woocommerce-pagination ul.page-numbers li .page-numbers:hover {
-	background-color: #14243A;
-	border-color: #D6AD65;
-	color: #D6AD65;
+	background-color: var(--color-brand-navy);
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}
+
+[data-theme="dark"] .navigation.pagination .page-numbers.current,
+[data-theme="dark"] .navigation.pagination .page-numbers:hover,
+[data-theme="dark"] .woocommerce-pagination ul.page-numbers li .page-numbers.current,
+[data-theme="dark"] .woocommerce-pagination ul.page-numbers li .page-numbers:hover,
+.cet-dark-mode .navigation.pagination .page-numbers.current,
+.cet-dark-mode .navigation.pagination .page-numbers:hover,
+.cet-dark-mode .woocommerce-pagination ul.page-numbers li .page-numbers.current,
+.cet-dark-mode .woocommerce-pagination ul.page-numbers li .page-numbers:hover {
+	background-color: var(--color-accent);
+	border-color: var(--color-accent);
+	color: #09101A;
 }
