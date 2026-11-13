@@ -42,6 +42,21 @@ if ( function_exists( 'wc_get_products' ) ) {
 			)
 		);
 
+		// If no products have sales yet (e.g. freshly created products in wp-admin), fallback to top-rated or trending so the tab is never blank.
+		if ( empty( $bestselling_products ) ) {
+			$bestselling_products = wc_get_products(
+				array(
+					'status'  => 'publish',
+					'limit'   => $limit,
+					'orderby' => 'rating',
+					'order'   => 'DESC',
+				)
+			);
+			if ( empty( $bestselling_products ) ) {
+				$bestselling_products = $trending_products;
+			}
+		}
+
 		$new_arrivals = wc_get_products(
 			array(
 				'status'  => 'publish',
@@ -50,6 +65,10 @@ if ( function_exists( 'wc_get_products' ) ) {
 				'order'   => 'DESC',
 			)
 		);
+
+		if ( empty( $new_arrivals ) ) {
+			$new_arrivals = $trending_products;
+		}
 	}
 }
 
