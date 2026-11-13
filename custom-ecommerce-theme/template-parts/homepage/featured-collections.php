@@ -24,6 +24,18 @@ if ( function_exists( 'wc_get_products' ) ) {
 			'limit'    => 4,
 		)
 	);
+
+	// If no products are starred as 'featured' in wp-admin, display the store's latest published products.
+	if ( empty( $featured_products ) ) {
+		$featured_products = wc_get_products(
+			array(
+				'status'  => 'publish',
+				'limit'   => 4,
+				'orderby' => 'date',
+				'order'   => 'DESC',
+			)
+		);
+	}
 }
 ?>
 <section class="cet-section cet-section--surface" id="featured-collections">
@@ -50,7 +62,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div class="cet-promo-card">
 				<span class="cet-eyebrow"><?php esc_html_e( 'Collection 02', 'custom-ecommerce-theme' ); ?></span>
 				<h3><?php esc_html_e( 'The Executive Travel Capsule', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="color:#5A6578;"><?php esc_html_e( 'Engineered for seamless global transit and uncompromising durability.', 'custom-ecommerce-theme' ); ?></p>
+				<p><?php esc_html_e( 'Engineered for seamless global transit and uncompromising durability.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
 					<a href="<?php echo esc_url( add_query_arg( 'cet_cat', 'executive-travel', $shop_url ) ); ?>" class="cet-btn cet-btn--primary cet-btn--sm">
 						<?php esc_html_e( 'Shop Capsule', 'custom-ecommerce-theme' ); ?>
@@ -61,7 +73,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div class="cet-promo-card">
 				<span class="cet-eyebrow"><?php esc_html_e( 'Collection 03', 'custom-ecommerce-theme' ); ?></span>
 				<h3><?php esc_html_e( 'Artisanal Gift Editions', 'custom-ecommerce-theme' ); ?></h3>
-				<p style="color:#5A6578;"><?php esc_html_e( 'Presented in bespoke presentation boxes with personalized monogramming.', 'custom-ecommerce-theme' ); ?></p>
+				<p><?php esc_html_e( 'Presented in bespoke presentation boxes with personalized monogramming.', 'custom-ecommerce-theme' ); ?></p>
 				<div style="margin-top:auto;">
 					<a href="<?php echo esc_url( add_query_arg( 'cet_sort', 'rated', $shop_url ) ); ?>" class="cet-btn cet-btn--outline cet-btn--sm">
 						<?php esc_html_e( 'Browse Gifts', 'custom-ecommerce-theme' ); ?>
