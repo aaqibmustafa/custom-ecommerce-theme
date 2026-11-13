@@ -366,5 +366,94 @@
 					}
 				} );
 		} );
+
+		// 9. Interactive Light & Dark Mode System.
+		( function initThemeMode() {
+			const getEffectiveTheme = () => {
+				try {
+					const stored = localStorage.getItem( 'cet_theme_mode' );
+					if ( stored === 'dark' || stored === 'light' ) {
+						return stored;
+					}
+				} catch ( err ) {}
+
+				const def = ( window.cetThemeData && window.cetThemeData.defaultColorMode ) || 'light';
+				if ( def === 'dark' ) {
+					return 'dark';
+				}
+				if ( def === 'auto' && window.matchMedia && window.matchMedia( '(prefers-color-scheme: dark)' ).matches ) {
+					return 'dark';
+				}
+				return 'light';
+			};
+
+			const applyTheme = ( theme, announce = false ) => {
+				const html = document.documentElement;
+				const body = document.body;
+
+				html.classList.add( 'cet-theme-transitioning' );
+				html.setAttribute( 'data-theme', theme );
+
+				if ( theme === 'dark' ) {
+					html.classList.add( 'cet-dark-mode' );
+					if ( body ) body.classList.add( 'cet-dark-mode' );
+				} else {
+					html.classList.remove( 'cet-dark-mode' );
+					if ( body ) body.classList.remove( 'cet-dark-mode' );
+				}
+
+				const isDark = ( theme === 'dark' );
+				const nextLabel = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+				const statusText = isDark ? 'Dark Mode' : 'Light Mode';
+
+				document.querySelectorAll( '.cet-theme-toggle-btn' ).forEach( ( btn ) => {
+					btn.setAttribute( 'aria-label', nextLabel );
+					btn.setAttribute( 'title', nextLabel );
+					const textEl = btn.querySelector( '.cet-theme-mode-text' );
+					if ( textEl ) {
+						textEl.textContent = statusText;
+					}
+				} );
+
+				setTimeout( () => {
+					html.classList.remove( 'cet-theme-transitioning' );
+				}, 350 );
+
+				if ( announce && window.CET && window.CET.showToast ) {
+					window.CET.showToast( isDark ? 'Dark Mode Activated' : 'Light Mode Activated' );
+				}
+			};
+
+			document.addEventListener( 'click', ( e ) => {
+				const btn = e.target.closest( '.cet-theme-toggle-btn' );
+				if ( ! btn ) return;
+
+				e.preventDefault();
+				const current = document.documentElement.getAttribute( 'data-theme' ) || 'light';
+				const next = ( current === 'dark' ) ? 'light' : 'dark';
+
+				try {
+					localStorage.setItem( 'cet_theme_mode', next );
+				} catch ( err ) {}
+
+				applyTheme( next, true );
+			} );
+
+			window.addEventListener( 'storage', ( e ) => {
+				if ( e.key === 'cet_theme_mode' && ( e.newValue === 'light' || e.newValue === 'dark' ) ) {
+					applyTheme( e.newValue, false );
+				}
+			} );
+
+			if ( window.matchMedia ) {
+				window.matchMedia( '(prefers-color-scheme: dark)' ).addEventListener( 'change', ( e ) => {
+					if ( ! localStorage.getItem( 'cet_theme_mode' ) ) {
+						applyTheme( e.matches ? 'dark' : 'light', false );
+					}
+				} );
+			}
+
+			applyTheme( getEffectiveTheme(), false );
+		} )();
 	} );
 } )();
