@@ -127,22 +127,44 @@ body {
 	}
 
 	.cet-header__main {
-		grid-template-columns: minmax(0, 1fr) auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		gap: 0.75rem;
-		padding-top: 0.85rem;
-		padding-bottom: 0.85rem;
+		padding-top: 0.8rem;
+		padding-bottom: 0.8rem;
+		flex-wrap: wrap;
 	}
 
 	.cet-header__branding {
-		gap: 0.6rem;
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		overflow: hidden;
+	}
+
+	.cet-header__brand-wrap {
+		min-width: 0;
+		flex: 1;
+		overflow: hidden;
 	}
 
 	.cet-header .cet-brand-link,
 	.cet-header .site-branding a {
-		font-size: 1.24rem;
+		font-size: 1.18rem;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		display: block;
+		max-width: 100%;
+		line-height: 1.25;
+	}
+
+	.cet-header .custom-logo-link img {
+		max-height: 38px;
+		max-width: 140px;
 	}
 
 	.cet-brand-tagline {
@@ -150,22 +172,48 @@ body {
 	}
 
 	.cet-header__actions {
-		gap: 0.45rem;
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
 		flex-shrink: 0;
 	}
 
-	.cet-header .cet-header-action {
-		padding: 0.46rem 0.65rem;
-		min-height: 40px;
+	/* On mobile & tablet viewports (<= 768px), hide #cet-account-trigger from top bar so brand name has complete breathing room without crowding or icon overlaps. Account & Client Sign In is prominently featured at the top of the mobile drawer. */
+	.cet-header #cet-account-trigger {
+		display: none !important;
 	}
 
-	.cet-header-search {
-		grid-column: 1 / -1;
-		order: 3;
+	.cet-header .cet-header-action,
+	.cet-header .cet-theme-toggle-btn {
+		width: 38px;
+		height: 38px;
+		padding: 0 !important;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--radius-sm);
+		min-height: 38px;
+		box-sizing: border-box;
 	}
 
 	.cet-action-label {
 		display: none;
+	}
+
+	.cet-action-badge {
+		position: absolute;
+		top: -4px;
+		right: -4px;
+		min-width: 18px;
+		height: 18px;
+		font-size: 0.68rem;
+		padding: 0 4px;
+	}
+
+	.cet-header-search {
+		width: 100%;
+		order: 3;
+		margin-top: 0.25rem;
 	}
 
 	.cet-grid-cols-3,
@@ -370,19 +418,9 @@ body {
 		padding-right: 0.9rem;
 	}
 
-	.cet-grid-cols-6,
-	.cet-brands-strip {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.75rem;
-	}
-
-	.cet-grid-cols-3,
-	.cet-grid-cols-4,
-	.cet-products-grid,
-	.woocommerce ul.products,
-	.cet-trust-strip,
-	.cet-footer__grid {
-		grid-template-columns: 1fr;
+	/* On compact mobile, hide #cet-account-trigger from top row so the site brand has full breathing room (prominently available in mobile drawer) */
+	.cet-header #cet-account-trigger {
+		display: none;
 	}
 
 	.cet-header .cet-brand-link,
@@ -391,8 +429,17 @@ body {
 	}
 
 	.cet-mobile-toggle {
-		width: 38px;
-		height: 38px;
+		width: 36px;
+		height: 36px;
+		flex-shrink: 0;
+	}
+
+	.cet-header .cet-header-action,
+	.cet-header .cet-theme-toggle-btn {
+		width: 36px;
+		height: 36px;
+		min-height: 36px;
+		padding: 0 !important;
 	}
 
 	.cet-search-form__cat {
