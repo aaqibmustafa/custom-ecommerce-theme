@@ -18,13 +18,14 @@ if ( ! function_exists( 'cet_default_options' ) ) {
 	 */
 	function cet_default_options(): array {
 		$defaults = array(
-			// Brand Colors.
-			'color_primary'              => '#14243A',
-			'color_accent'               => '#D6AD65',
-			'color_secondary'            => '#356AE6',
-			'color_background'           => '#F5F7FA',
-			'color_text'                 => '#202938',
-			'color_border'               => '#E8EDF5',
+			// Brand Colors & Appearance.
+			'default_color_mode'         => 'light',
+			'color_primary'              => '#112033',
+			'color_accent'               => '#C99B4A',
+			'color_secondary'            => '#2E63E6',
+			'color_background'           => '#F8F9FC',
+			'color_text'                 => '#162232',
+			'color_border'               => '#E3E8F0',
 
 			// Typography & Layout.
 			'container_width'            => 1280,
@@ -182,6 +183,33 @@ function cet_customize_register( WP_Customize_Manager $wp_customize ): void {
 			'title'    => esc_html__( '1. Brand Colors (Champagne Gold System)', 'custom-ecommerce-theme' ),
 			'panel'    => 'cet_theme_panel',
 			'priority' => 10,
+		)
+	);
+
+	// Default Color Mode Setting (Light Mode / Dark Mode / Auto).
+	$wp_customize->add_setting(
+		'default_color_mode',
+		array(
+			'default'           => 'light',
+			'sanitize_callback' => static function( $v ) {
+				return in_array( $v, array( 'light', 'dark', 'auto' ), true ) ? $v : 'light';
+			},
+			'transport'         => 'refresh',
+		)
+	);
+
+	$wp_customize->add_control(
+		'default_color_mode',
+		array(
+			'label'       => esc_html__( 'Default Store Appearance', 'custom-ecommerce-theme' ),
+			'description' => esc_html__( 'Choose whether first-time visitors experience the store in crisp Haute Light Mode or Obsidian Dark Mode.', 'custom-ecommerce-theme' ),
+			'section'     => 'cet_section_colors',
+			'type'        => 'select',
+			'choices'     => array(
+				'light' => esc_html__( 'Haute Light Mode (Bespoke Cloud Porcelain & Midnight Navy)', 'custom-ecommerce-theme' ),
+				'dark'  => esc_html__( 'Obsidian Dark Mode (Midnight Velvet & Champagne Gold)', 'custom-ecommerce-theme' ),
+				'auto'  => esc_html__( 'System Automatic (Follow Visitor OS Scheme)', 'custom-ecommerce-theme' ),
+			),
 		)
 	);
 
@@ -512,16 +540,16 @@ add_action( 'customize_register', 'cet_customize_register' );
  * @return string
  */
 function cet_get_customizer_Dynamic_css(): string {
-	$primary    = sanitize_hex_color( (string) cet_get_option( 'color_primary' ) ) ?: '#14243A';
-	$accent     = sanitize_hex_color( (string) cet_get_option( 'color_accent' ) ) ?: '#D6AD65';
-	$secondary  = sanitize_hex_color( (string) cet_get_option( 'color_secondary' ) ) ?: '#356AE6';
-	$background = sanitize_hex_color( (string) cet_get_option( 'color_background' ) ) ?: '#F5F7FA';
-	$text       = sanitize_hex_color( (string) cet_get_option( 'color_text' ) ) ?: '#202938';
-	$border     = sanitize_hex_color( (string) cet_get_option( 'color_border' ) ) ?: '#E8EDF5';
+	$primary    = sanitize_hex_color( (string) cet_get_option( 'color_primary' ) ) ?: '#112033';
+	$accent     = sanitize_hex_color( (string) cet_get_option( 'color_accent' ) ) ?: '#C99B4A';
+	$secondary  = sanitize_hex_color( (string) cet_get_option( 'color_secondary' ) ) ?: '#2E63E6';
+	$background = sanitize_hex_color( (string) cet_get_option( 'color_background' ) ) ?: '#F8F9FC';
+	$text       = sanitize_hex_color( (string) cet_get_option( 'color_text' ) ) ?: '#162232';
+	$border     = sanitize_hex_color( (string) cet_get_option( 'color_border' ) ) ?: '#E3E8F0';
 	$width      = absint( cet_get_option( 'container_width' ) ) ?: 1280;
 
 	return sprintf(
-		':root { --color-primary: %1$s; --color-accent: %2$s; --color-secondary: %3$s; --color-background: %4$s; --color-text: %5$s; --color-border: %6$s; --container-max-width: %7$dpx; }',
+		':root { --container-max-width: %7$dpx; } :root:where(:not([data-theme="dark"]):not(.cet-dark-mode)) { --color-primary: %1$s; --color-accent: %2$s; --color-secondary: %3$s; --color-background: %4$s; --color-text: %5$s; --color-border: %6$s; }',
 		esc_attr( $primary ),
 		esc_attr( $accent ),
 		esc_attr( $secondary ),
